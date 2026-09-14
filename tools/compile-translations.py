@@ -21,4 +21,6 @@ for message in catalog:
         template.add(message.id, locations=message.locations, context=message.context)
 with (directory / f'{domain}.pot').open('wb') as target:
     write_po(target, template, width=100)
+template_path = directory / f'{domain}.pot'
+template_path.write_bytes(template_path.read_bytes().rstrip(b'\r\n') + b'\n')
 print('Compiled Persian MO and translation template.')
