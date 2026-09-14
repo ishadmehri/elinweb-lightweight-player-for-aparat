@@ -85,8 +85,8 @@
           )
         ),
         el('div', useBlockProps(),
-          el(TextControl, { label: 'لینک آپارات', placeholder: 'https://www.aparat.com/v/ytf50k5', value: a.url,
-            onChange: function (url) { set({ url }); }, help: 'پوستر خودکار در رسانه‌های وردپرس ذخیره می‌شود.' }),
+          el(TextControl, { label: 'لینک آپارات', placeholder: 'https://www.aparat.com/embed/ytf50k5', value: a.url,
+            onChange: function (url) { set({ url }); }, help: 'لینک را به شکل https://www.aparat.com/embed/ytf50k5 (فرمت جدیدتر) یا https://www.aparat.com/v/ytf50k5 وارد کن.' }),
           busy ? el(Spinner) : null,
           error ? el(Notice, { status: 'warning', isDismissible: false }, error) : null,
           a.url ? el('div', { className: 'lwpa', style: { aspectRatio: a.ratio } },

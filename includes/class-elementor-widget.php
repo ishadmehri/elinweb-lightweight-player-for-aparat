@@ -13,8 +13,8 @@ class Elementor_Widget extends \Elementor\Widget_Base {
     protected function register_controls() {
         $this->start_controls_section('video', array('label' => 'ویدئوی آپارات'));
         $this->add_control('aparat_url', array('label' => 'لینک آپارات', 'type' => \Elementor\Controls_Manager::TEXT,
-            'placeholder' => 'https://www.aparat.com/v/ytf50k5', 'label_block' => true,
-            'dynamic' => array('active' => true), 'description' => 'عنوان و پوستر به‌صورت خودکار دریافت و پوستر در وردپرس ذخیره می‌شود.'));
+            'placeholder' => 'https://www.aparat.com/embed/ytf50k5', 'label_block' => true,
+            'dynamic' => array('active' => true), 'description' => 'لینک را به شکل https://www.aparat.com/embed/ytf50k5 یا https://www.aparat.com/v/ytf50k5 وارد کن. فرمت embed جدیدتر است. پوستر خودکار آماده می‌شود.'));
         $this->add_control('video_title', array('label' => 'عنوان دلخواه (اختیاری)', 'type' => \Elementor\Controls_Manager::TEXT,
             'dynamic' => array('active' => true), 'label_block' => true));
         $this->add_control('poster', array('label' => 'پوستر جایگزین (اختیاری)', 'type' => \Elementor\Controls_Manager::MEDIA));
@@ -62,6 +62,8 @@ class Elementor_Widget extends \Elementor\Widget_Base {
                 $args[$key] = $settings[$control];
             }
         }
+        // Renderer escapes URLs, attributes and titles individually; its trusted HTML includes the Play SVG and local CSS.
+        // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaping the complete HTML would break the player markup.
         echo Renderer::render($args);
     }
 }

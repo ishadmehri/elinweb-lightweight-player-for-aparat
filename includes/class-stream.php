@@ -83,17 +83,24 @@ final class Stream {
     public static function ajax() {
         nocache_headers();
         header('Cache-Control: no-store, private, max-age=0');
-        $hash = isset($_GET['hash']) && is_string($_GET['hash']) ? wp_unslash($_GET['hash']) : '';
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Public read-only video playback; a cached expiring nonce would block visitors.
+        $hash = isset($_GET['hash']) && is_string($_GET['hash']) ? sanitize_text_field(wp_unslash($_GET['hash'])) : '';
         $url = self::resolve($hash);
         if (is_wp_error($url)) {
             $data = $url->get_error_data();
             wp_send_json(array('error' => $url->get_error_message()), $data['status'] ?? 503);
         }
-        if (isset($_GET['format']) && $_GET['format'] === 'json') {
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Selects the response format for the same public read-only request.
+        $format = isset($_GET['format']) && is_string($_GET['format']) ? sanitize_key(wp_unslash($_GET['format'])) : '';
+        if ($format === 'json') {
             wp_send_json(array('url' => $url));
         }
         // Only the trusted CDN URLs validated by resolve() can reach this redirect.
-        wp_redirect($url, 302, 'Lightweight Player for Aparat');
+        $host = wp_parse_url($url, PHP_URL_HOST);
+        $allow_host = static function ($hosts) use ($host) { $hosts[] = $host; return $hosts; };
+        add_filter('allowed_redirect_hosts', $allow_host);
+        wp_safe_redirect($url, 302, 'Lightweight Player for Aparat');
+        remove_filter('allowed_redirect_hosts', $allow_host);
         exit;
     }
 }

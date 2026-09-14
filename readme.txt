@@ -4,157 +4,70 @@ Tags: aparat, video, performance, elementor, block
 Requires at least: 6.3
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 2.0.1
+Stable tag: 2.0.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-نمایش بهینه ویدئوهای آپارات با پوستر محلی و پخش پس از کلیک؛ همراه با بلوک وردپرس، ویجت المنتور و شورت‌کد.
+Add Aparat videos with local posters and click-to-play playback. Includes a Gutenberg block and an Elementor widget.
 
 == Description ==
 
-«آپارات بهینه شده» ویدئوهای آپارات را ابتدا به صورت یک پوستر محلی و آیکون دایره‌ای پخش نمایش می‌دهد. پلیر ویدئو فقط با کلیک کاربر ساخته می‌شود.
+Paste an Aparat link, and the plugin prepares a local poster with a circular Play icon. The player loads after your visitor clicks Play, keeping video requests out of the initial page load.
 
-در حالت پیش‌فرض، پخش با پلیر مرورگر انجام می‌شود. در این حالت iframe و JavaScript پلیر آپارات بارگذاری نمی‌شوند و درخواست پخش با همان کلیک اول ارسال می‌شود. در صورت نیاز می‌توانید پلیر رسمی آپارات را انتخاب کنید.
+Use either of these link formats:
 
-لینکی مانند https://www.aparat.com/v/ytf50k5 را در بلوک یا ویجت وارد کنید. عنوان و پوستر عمومی ویدئو دریافت می‌شوند و تصویر در رسانه‌های وردپرس ذخیره می‌شود. کد Script یا Iframe یک ویدئو نیز می‌تواند ورودی باشد؛ افزونه لینک و تنظیمات را از آن استخراج می‌کند و کد ورودی را اجرا نمی‌کند.
+* https://www.aparat.com/embed/ytf50k5 (recommended newer input format)
+* https://www.aparat.com/v/ytf50k5
 
-امکانات:
+Replace ytf50k5 with your video's identifier.
 
-* بلوک «آپارات بهینه شده» در ویرایشگر وردپرس و ویجت هم‌نام در المنتور.
-* پوستر محلی و واکنش‌گرا با تبدیل به WebP در صورت پشتیبانی سرور.
-* دکمه دایره‌ای با آیکون Play، بدون متن قابل مشاهده و همراه با نام دسترس‌پذیر برای صفحه‌خوان.
-* بارگذاری پلیر پس از کلیک؛ بدون دانلود فایل ویدئو یا اسکریپت پلیر آپارات پیش از کلیک.
-* تعیین زمان شروع پخش، پخش اولیه بی‌صدا، نسبت تصویر، عنوان دلخواه و پوستر جایگزین.
-* اولویت بارگذاری پوستر برای ویدئوهایی که بدون اسکرول دیده می‌شوند.
-* تنظیم نمایش عنوان و پیشنهاد ویدئوهای همان کانال در حالت پلیر رسمی.
-* تلاش خودکار با مسیر جایگزین در خطای بارگذاری و نمایش دکمه تلاش مجدد در همان صفحه.
-* یک فایل JavaScript بدون وابستگی، فقط در صفحات دارای ویدئوی افزونه.
-* استثنای خودکار اسکریپت پخش در Delay JavaScript افزونه‌های WP Rocket و Perfmatters.
-* شورت‌کد و تابع PHP برای اتصال به افزونه‌های تزریق ویدئو.
+Includes a Gutenberg block, an optional Elementor widget, and the lwpa_aparat shortcode. You can set a custom poster, aspect ratio, start time, or muted playback. Enable above-fold poster priority only for videos visible without scrolling.
 
-عنوان فارسی افزونه «آپارات بهینه شده» و نام انگلیسی آن Lightweight Player for Aparat است. نام فنی پوشه و شناسه‌های افزونه lightweight-player-for-aparat باقی می‌مانند.
+The default browser player avoids Aparat's iframe and player JavaScript. An optional official Aparat player is also available. WP Rocket and Perfmatters Delay JavaScript exclusions are included.
 
-پوستر هنگام ویرایش، ذخیره نوشته یا اجرای کار پس‌زمینه WP-Cron آماده می‌شود. نمایش عمومی صفحه برای دریافت پوستر، درخواست هم‌زمان به API آپارات نمی‌فرستد. پخش به در دسترس بودن ویدئو و ارتباط هاست و مرورگر با API و CDN آپارات وابسته است. تأثیر نهایی بر PageSpeed به سایر اجزای صفحه هم بستگی دارد و نمره مشخصی تضمین نمی‌شود.
+Posters are stored in your media library and converted to WebP when supported. Preparation runs while editing, saving, or through WP-Cron, without synchronous Aparat requests during public page rendering. Playback depends on API/CDN availability and browser policies.
 
-این افزونه مستقل است و وابستگی سازمانی یا تأیید رسمی از آپارات یا المنتور ندارد.
+The plugin includes Persian interface translations. Find the short Persian guide in README.md or on GitHub: https://github.com/ishadmehri/lightweight-player-for-aparat
 
-نویسنده: ایمان شادمهری (Iman Shadmehri)
-حساب وردپرس: imansh
-وب‌سایت افزونه و نویسنده: https://elinweb.ir
+Independently developed; not affiliated with or endorsed by Aparat or Elementor.
+Author: Iman Shadmehri. Website: https://elinweb.ir
 
 == Installation ==
 
-1. از مسیر «افزونه‌ها ← افزودن افزونه ← بارگذاری افزونه»، ZIP نصب‌پذیر را بارگذاری کنید. نصب دستی با قرار دادن پوشه lightweight-player-for-aparat در /wp-content/plugins/ نیز ممکن است.
-2. افزونه «آپارات بهینه شده» را فعال کنید. در وردپرس انگلیسی، نام Lightweight Player for Aparat نمایش داده می‌شود.
-3. بلوک یا ویجت «آپارات بهینه شده» را اضافه و لینک ویدئوی آپارات را وارد کنید.
-4. نوشته را ذخیره کنید و اجازه دهید پوستر آماده شود. برای دریافت پوستر در پس‌زمینه، WP-Cron باید اجرا شود.
-5. پس از تغییر ویدئوهای قبلی یا به‌روزرسانی افزونه، کش صفحه و CDN را پاک کنید.
-
-المنتور اختیاری است؛ بلوک، شورت‌کد و تابع PHP بدون آن هم قابل استفاده‌اند.
-
-مهاجرت از Dadsoo Aparat Performance: ابتدا افزونه قدیمی را غیرفعال کنید، سپس ZIP افزونه جدید را جداگانه نصب و فعال کنید. هر دو افزونه را هم‌زمان فعال نگذارید. بلوک‌ها، ویجت‌ها، شورت‌کدها و پوسترهای قبلی پشتیبانی می‌شوند. نام پوشه و فایل اصلی تغییر کرده است؛ نصب ZIP جدید پوشه قدیمی را بازنویسی نمی‌کند. کش‌ها را پاک و استثناهای اختصاصی کش مسیر پخش را به‌روز کنید.
+1. Upload the installable ZIP through Plugins > Add New > Upload Plugin and activate it.
+2. Add the Gutenberg block or Elementor widget and paste an /embed/ or /v/ Aparat link.
+3. Save and allow poster preparation to finish. WP-Cron must run for background imports. Clear page/CDN caches after updating.
 
 == Frequently Asked Questions ==
 
-= چطور از شورت‌کد استفاده کنم؟ =
+= How do I use the shortcode? =
 
-[lwpa_aparat url="https://www.aparat.com/v/ytf50k5"]
+[lwpa_aparat url="https://www.aparat.com/embed/ytf50k5" start_time="65" muted="true"]
 
-برای شروع از ثانیه ۶۵ و پخش بی‌صدا:
+= Does playback need one click? =
 
-[lwpa_aparat url="https://www.aparat.com/v/ytf50k5" start_time="65" muted="true" ratio="16/9"]
+The browser player requests playback during the first click. It can retry muted playback if the browser rejects playback with sound. The optional official iframe may require an extra internal Play click.
 
-پارامتر poster="123" شناسه تصویر در رسانه‌های وردپرس و title="عنوان ویدئو" عنوان دلخواه را مشخص می‌کند. above_fold="true" را فقط برای پوستری فعال کنید که بدون اسکرول دیده می‌شود.
+= What cache exclusions are needed? =
 
-برای پلیر رسمی آپارات:
-
-[lwpa_aparat url="https://www.aparat.com/v/ytf50k5" player="aparat" title_show="true" recom="self"]
-
-= بهینه‌سازی ویدئو چگونه انجام می‌شود؟ =
-
-در حالت پیش‌فرض، iframe با پوستر محلی جایگزین می‌شود و پلیر مرورگر پس از کلیک ساخته می‌شود. JavaScript پلیر آپارات در این حالت دانلود نمی‌شود. دانلود فایل ویدئو هم پس از درخواست پخش آغاز می‌شود؛ صرفاً ورود ویدئو به محدوده قابل مشاهده صفحه باعث بارگذاری پلیر نمی‌شود.
-
-= آیا ویدئو با یک کلیک پخش می‌شود؟ =
-
-در حالت مرورگر، play() در پاسخ به همان کلیک اول فراخوانی می‌شود. آماده شدن فایل و قوانین پخش مرورگر همچنان اثر دارند؛ اگر مرورگر پخش با صدا را رد کند، افزونه پخش بی‌صدا را امتحان می‌کند. در حالت iframe رسمی، autoplay درخواست می‌شود ولی پلیر آپارات یا مرورگر ممکن است کلیک داخلی دیگری بخواهد.
-
-= آیا پیش از کلیک، ارتباطی با آپارات برقرار می‌شود؟ =
-
-سرور سایت هنگام ویرایش، ذخیره یا اجرای کار پس‌زمینه، عنوان و پوستر را دریافت می‌کند. بازدیدکننده پوستر ذخیره‌شده را از سایت شما می‌گیرد و این افزونه پیش از کلیک او، درخواست مرورگر به آپارات نمی‌فرستد. سایر افزونه‌ها و کدهای جاسازی موجود در صفحه ممکن است درخواست‌های دیگری ایجاد کنند.
-
-= اگر پوستر دریافت نشود چه اتفاقی می‌افتد؟ =
-
-دکمه پخش باقی می‌ماند. می‌توانید تصویری از رسانه‌ها انتخاب یا دریافت پوستر را بعداً تکرار کنید. پشتیبانی WebP اجباری نیست؛ در صورت نبود امکان تبدیل، فرمت اصلی معتبر تصویر استفاده می‌شود.
-
-= گزینه «پوستر در ابتدای صفحه است» چه کاربردی دارد؟ =
-
-برای پوستری که بدون اسکرول دیده می‌شود، این گزینه بارگذاری eager و اولویت high را فعال می‌کند. پوسترهای پایین صفحه در حالت پیش‌فرض lazy هستند. فعال کردن اولویت بالا برای همه پوسترها می‌تواند رقابت درخواست‌های تصویر را بیشتر کند.
-
-= چطور به افزونه تزریق ویدئو متصلش کنم؟ =
-
-تابع lightweight_player_for_aparat_render($aparat_url, $args) را فراخوانی و HTML خروجی را وارد مقاله کنید. نام تنظیمات مانند بلوک است: startTime، muted، posterId، aboveFold و playerType. تابع، کد جاسازی قدیمی یک ویدئو را هم می‌پذیرد. آن را روی کل HTML مقاله اجرا نکنید؛ محتوای قبلی خودکار بازنویسی نمی‌شود.
-
-= ویدئوهای نسخه قدیمی حفظ می‌شوند؟ =
-
-شورت‌کد dadsoo_aparat، بلوک dadsoo/aparat-performance، ویجت dadsoo-aparat-performance و تابع dadsoo_aparat_performance_render() به عنوان شناسه‌های سازگار پشتیبانی می‌شوند. پوسترها و اطلاعات ذخیره‌شده قبلی دوباره استفاده می‌شوند؛ نیازی به ساخت مجدد ویدئوها نیست. ورودی‌های جدید از شناسه‌های جدید استفاده می‌کنند.
-
-= چه تنظیماتی برای کش لازم است؟ =
-
-اسکریپت پخش از Delay JavaScript در WP Rocket و Perfmatters مستثنا می‌شود. پاسخ مسیر پخش، هدر Cache-Control: no-store دارد. اگر کش مستقل CDN یا REST دارید، اکشن lwpa_aparat_stream در /wp-admin/admin-ajax.php و مسیر /wp-json/lightweight-player/v1/stream/* را از کش خارج کنید. تا زمان جایگزینی HTML کش‌شده قدیمی، استثنای مسیرهای قدیمی را هم حفظ کنید. فایل ویدئو مستقیم از CDN آپارات دریافت می‌شود و از PHP سایت عبور نمی‌کند.
-
-= آیا داده ساختاریافته ویدئو تولید می‌شود؟ =
-
-خیر. داده صحیح VideoObject قالب، افزونه سئو یا افزونه تزریق فعلی خود را حفظ کنید.
+For independent CDN/REST caching, exclude the lwpa_aparat_stream action on /wp-admin/admin-ajax.php and /wp-json/lightweight-player/v1/stream/* from caching. Playback responses send Cache-Control: no-store. Video bytes come directly from Aparat's CDN.
 
 == External services ==
 
-افزونه برای عنوان و پوستر عمومی ویدئو و پخش آن، از سرویس آپارات استفاده می‌کند.
+Aparat (https://www.aparat.com/) supplies public video metadata, poster images, and video files.
 
-سرویس: آپارات، https://www.aparat.com/
+During editing, saving, background poster preparation, or a native playback request, your server sends the video identifier to https://www.aparat.com/etc/api/video/videohash/{identifier}. Aparat receives the server IP and normal HTTP request information. Poster images are downloaded from validated Aparat CDN hosts and saved locally.
 
-* هنگام پیش‌نمایش ویرایشگر، ذخیره یا آماده‌سازی در پس‌زمینه، سرور سایت شناسه ویدئو را به https://www.aparat.com/etc/api/video/videohash/{identifier} می‌فرستد تا عنوان و آدرس پوستر عمومی دریافت شوند. تصویر از یک آدرس معتبر CDN آپارات دانلود و در رسانه‌های وردپرس ذخیره می‌شود. آپارات آدرس IP سرور و اطلاعات معمول درخواست HTTP را دریافت می‌کند.
-* پس از کلیک کاربر در حالت مرورگر، مسیر عمومی پخش در سایت شما شناسه ویدئو را به API آپارات می‌فرستد تا آدرس موقت MP4 دریافت شود. مرورگر کاربر فایل را از CDN آپارات می‌گیرد؛ بنابراین IP کاربر و اطلاعات معمول درخواست مرورگر به آن سرویس ارسال می‌شوند. آدرس موقت فایل مدت کوتاهی در سرور کش می‌شود و داخل HTML کش‌شده مقاله قرار نمی‌گیرد.
-* در حالت اختیاری پلیر رسمی، iframe با آدرس https://www.aparat.com/video/video/embed/videohash/{identifier}/vt/frame پس از کلیک بارگذاری می‌شود. درخواست‌ها، کوکی‌ها و ابزارهای آمارگیری داخل این پلیر توسط آپارات کنترل می‌شوند.
+After Play, the visitor's browser requests the video from Aparat's CDN, which receives the visitor IP and normal browser request information. Video URLs are cached briefly on the server, not in article HTML. In optional official-player mode, the browser loads an Aparat iframe after Play; its requests, cookies, and analytics are controlled by Aparat.
 
-حساب آپارات یا کلید API لازم نیست. این افزونه رمزهای وردپرس، اطلاعات ورود یا محتوای خصوصی مقاله را برای آپارات ارسال نمی‌کند و ابزار آمارگیری اختصاصی ندارد.
-
-قوانین منتشرشده آپارات: https://www.aparat.com/community-guideline
-مرکز پشتیبانی آپارات: https://support.aparat.com/
+No Aparat account or API key is needed. The plugin does not send WordPress credentials or private article content and does not add its own telemetry.
+Rules: https://www.aparat.com/community-guideline
+Support: https://support.aparat.com/
 
 == Changelog ==
 
-= 2.0.1 =
-* افزودن ترجمه فارسی عنوان «آپارات بهینه شده» برای فهرست افزونه‌ها، بلوک وردپرس و ویجت المنتور.
-* فارسی‌سازی توضیحات، نصب، پرسش‌های متداول، راهنمای اصلی و توضیح ارتباط با سرویس آپارات.
-* افزودن فایل‌های ترجمه فارسی به بسته نصب؛ حفظ نام انگلیسی و شناسه‌های فنی.
-
-= 2.0.0 =
-* تغییر نام انگلیسی به Lightweight Player for Aparat و نام پوشه و دامنه ترجمه به lightweight-player-for-aparat.
-* ثبت نویسنده Iman Shadmehri، مشارکت‌کننده imansh و لینک افزونه و نویسنده https://elinweb.ir.
-* به‌روزرسانی شناسه‌های کد، بلوک، ویجت، شورت‌کد و مسیرهای پخش.
-* حفظ سازگاری ویدئوها، تابع PHP، مسیرهای پخش و پوسترهای نسخه قبلی.
-
-= 1.2.4 =
-* ترمیم آدرس پوستر و گزینه‌های ناقص تصاویر واکنش‌گرا پس از فیلترهای وردپرس و المنتور.
-* حفظ آدرس اصلی پوستر بدون درخواست اضافه در مرورگر.
-
-= 1.2.3 =
-* به‌روزرسانی مشخصات نویسنده و وب‌سایت.
-
-= 1.2.2 =
-* رفع src خالی و گزینه‌های ناقص srcset با استفاده از اطلاعات فایل رسانه.
-* حفظ تصاویر واکنش‌گرا و تنظیمات معتبر Lazy Load.
-
-= 1.2.1 =
-* بهبود پخش مرورگر، مسیر جایگزین، مدیریت زمان انتظار و تلاش مجدد در همان صفحه.
-
-= 1.2.0 =
-* افزودن پخش با پلیر مرورگر پس از کلیک.
-
-== Upgrade Notice ==
-
-= 2.0.1 =
-عنوان فارسی جدید و راهنمای فارسی؛ شناسه‌ها و ویدئوهای ذخیره‌شده تغییری نمی‌کنند.
-
-= 2.0.0 =
-نام و پوشه جدید. ابتدا Dadsoo Aparat Performance را غیرفعال و سپس نسخه جدید را فعال کنید. ویدئوها و پوسترهای قبلی پشتیبانی می‌شوند. کش‌ها و استثناهای مسیر پخش را به‌روز کنید.
+= 2.0.2 =
+* Shorten the guide and clarify /embed/ and /v/ input links, Gutenberg, and Elementor support.
+* Improve playback input sanitization and scope safe redirects to a validated Aparat CDN host.
+* Document intentional public playback and pre-escaped HTML for automated checks.
+* Clean the production package and restore the English directory readme.

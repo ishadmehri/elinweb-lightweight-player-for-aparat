@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Lightweight Player for Aparat 2.0.1\n"
+"Project-Id-Version: Lightweight Player for Aparat 2.0.2\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-09-14 19:11+0330\n"
+"POT-Creation-Date: 2026-09-14 19:23+0330\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -23,8 +23,8 @@ msgstr ""
 
 #: lightweight-player-for-aparat.php
 msgid ""
-"Embed Aparat videos with local posters and click-to-play playback. Includes a WordPress block, "
-"Elementor widget, and shortcode."
+"Play Aparat videos after a click, with local posters, a Gutenberg block and an Elementor widget. "
+"Supports /embed/ and /v/ links."
 msgstr ""
 
 #: block/block.json

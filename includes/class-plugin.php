@@ -25,6 +25,7 @@ final class Plugin {
     }
 
     public static function translations() {
+        // phpcs:ignore PluginCheck.CodeAnalysis.DiscouragedFunctions.load_plugin_textdomainFound -- ZIP installs need the bundled Persian catalog before WordPress.org language packs exist.
         load_plugin_textdomain('lightweight-player-for-aparat', false, dirname(plugin_basename(LWPA_FILE)) . '/languages');
     }
 

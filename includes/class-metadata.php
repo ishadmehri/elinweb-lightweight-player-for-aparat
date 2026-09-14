@@ -79,8 +79,11 @@ final class Metadata {
             return new \WP_Error('invalid_poster', 'آدرس پوستر نامعتبر است.');
         }
         // Reuse an existing imported attachment when the metadata cache was removed.
+        // Recovery only during editor/cron import after an option cache miss, never public rendering. Limit to one attachment.
         $existing = get_posts(array('post_type' => 'attachment', 'post_status' => 'inherit', 'fields' => 'ids',
-            'posts_per_page' => 1, 'meta_query' => array('relation' => 'OR',
+            'posts_per_page' => 1, 'no_found_rows' => true, 'update_post_meta_cache' => false,
+            // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query -- Bounded import recovery reuses media; not a frontend query.
+            'update_post_term_cache' => false, 'meta_query' => array('relation' => 'OR',
                 array('key' => '_lwpa_hash', 'value' => $hash), array('key' => '_dso_ap_hash', 'value' => $hash))));
         if ($existing && wp_attachment_is_image($existing[0])) {
             return (int) $existing[0];

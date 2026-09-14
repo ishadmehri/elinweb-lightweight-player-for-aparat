@@ -17,7 +17,7 @@ assert_i18n($block && $block->title === $expected, 'Block title not localized');
 assert_i18n(WP_Block_Type_Registry::get_instance()->get_registered('dadsoo/aparat-performance')->title === $expected,
     'Compatibility block title not localized');
 if ($locale === 'fa_IR') {
-    assert_i18n(strpos($data['Description'], 'نمایش ویدئوی آپارات') === 0, 'Plugin description not Persian');
+    assert_i18n(strpos($data['Description'], 'ویدئوی آپارات') === 0, 'Plugin description not Persian');
     assert_i18n(strpos($block->description, 'نمایش پوستر محلی') === 0, 'Block description not Persian');
 }
 if (did_action('elementor/loaded')) {
