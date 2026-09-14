@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Dadsoo Aparat Performance
  * Description: ویدئوی آپارات با پوستر محلی و بارگذاری پلیر پس از کلیک؛ بلوک وردپرس، ویجت المنتور و شورت‌کد.
- * Version: 1.2.1
+ * Version: 1.2.2
  * Requires at least: 6.3
  * Requires PHP: 7.4
  * Author: Dadsoo
@@ -10,12 +10,13 @@
  * Text Domain: dadsoo-aparat-performance
  */
 defined('ABSPATH') || exit;
-define('DSO_AP_VERSION', '1.2.1');
+define('DSO_AP_VERSION', '1.2.2');
 define('DSO_AP_FILE', __FILE__);
 define('DSO_AP_DIR', plugin_dir_path(__FILE__));
 require_once DSO_AP_DIR . 'includes/class-parser.php';
 require_once DSO_AP_DIR . 'includes/class-metadata.php';
 require_once DSO_AP_DIR . 'includes/class-stream.php';
+require_once DSO_AP_DIR . 'includes/class-poster.php';
 require_once DSO_AP_DIR . 'includes/class-renderer.php';
 require_once DSO_AP_DIR . 'includes/class-plugin.php';
 \Dadsoo\Aparat\Plugin::boot();

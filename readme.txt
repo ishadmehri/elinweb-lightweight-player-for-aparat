@@ -4,7 +4,7 @@ Tags: aparat, video, performance, elementor, block
 Requires at least: 6.3
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.2.1
+Stable tag: 1.2.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -74,6 +74,8 @@ Video schema is not generated. Preserve existing accurate VideoObject schema in 
 Uninstalling/deactivating preserves imported posters and metadata; deactivation removes pending plugin cron events.
 
 == Changelog ==
+= 1.2.2 =
+Repair empty poster src and malformed srcset width descriptors. Fall back to the local media file from upload metadata when attachment image URLs are empty. Preserve responsive candidates, lazy-load placeholders and above-fold priority. Apply the URL fallback to editor previews without extra network requests.
 = 1.2.1 =
 Fix error fallback navigating to Aparat on the next click. Use public admin-ajax media redirect, automatically retry an alternative CDN through REST, bound initial loading wait, and show inline retry/error status. No additional request before click.
 = 1.2.0 =

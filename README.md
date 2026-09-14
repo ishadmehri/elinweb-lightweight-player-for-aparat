@@ -19,7 +19,7 @@ A WordPress plugin for performance-focused Aparat embeds, with a Gutenberg block
 
 Requires WordPress 6.3+ and PHP 7.4+. Tested with WordPress 7.1. Elementor is optional.
 
-1. Download `dadsoo-aparat-performance-1.2.1.zip` from [Releases](https://github.com/ishadmehri/dadsoo-aparat-performance/releases).
+1. Download `dadsoo-aparat-performance-1.2.2.zip` from [Releases](https://github.com/ishadmehri/dadsoo-aparat-performance/releases).
 2. In WordPress, go to **Plugins → Add New → Upload Plugin**, upload the ZIP, and activate it.
 3. Add the **آپارات بهینه دادسو** block or Elementor widget and paste the Aparat link.
 4. Clear page/CDN caches after replacing an older plugin version or embed.
@@ -60,6 +60,8 @@ The function also accepts one stored legacy embed snippet. Installing the plugin
 
 Posters are served from your own site. Missing poster metadata is prepared in the editor/save flow or a background WP-Cron job; public rendering does not make a synchronous Aparat API call.
 
+Version 1.2.2 repairs empty image sources and malformed responsive candidates such as `srcset=" 900w, …"`. It uses the media file's upload metadata as a fallback, preserves valid responsive/lazy-load attributes, and adds no network requests. Clear page and CDN caches after updating; existing media do not need to be imported again.
+
 After a click, a public WordPress endpoint resolves a temporary MP4 URL from Aparat and redirects the browser to its CDN. PHP does not proxy video bytes. Signed source URLs are cached briefly on the server and never stored in cached article HTML. Live playback depends on host access to the Aparat API and visitor access to its CDN; no PageSpeed score is guaranteed.
 
 Exclude the `dadsoo_aparat_stream` action on `/wp-admin/admin-ajax.php` and `/wp-json/dadsoo-aparat/v1/stream/*` from independent CDN/REST caching. The plugin sends `Cache-Control: no-store` for those media responses.
@@ -75,6 +77,8 @@ node --test tests/player.test.cjs
 ```
 
 The nine tests cover click-to-play, settings, dynamic embeds, route fallback, loading timeout, and in-page retry after failure. PHP syntax was checked with PHP 8.3; WordPress/Elementor integration and real Aparat MP4 playback were also checked in an isolated development environment.
+
+`php tests/poster.php /path/to/disposable-wordpress-bootstrap.php` checks poster rendering and the blank-src/900w regression against WordPress. Use a disposable database: the test creates and removes its own attachment record.
 
 ## License
 

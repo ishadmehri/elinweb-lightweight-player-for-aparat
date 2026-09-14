@@ -36,12 +36,7 @@ final class Renderer {
         $above_fold = filter_var($args['aboveFold'], FILTER_VALIDATE_BOOLEAN);
         $poster = '';
         if ($poster_id && wp_attachment_is_image($poster_id)) {
-            $poster = wp_get_attachment_image($poster_id, 'large', false, array(
-                'class' => 'dso-ap__poster', 'alt' => '', 'decoding' => 'async',
-                'loading' => $above_fold ? 'eager' : 'lazy',
-                'fetchpriority' => $above_fold ? 'high' : 'auto',
-                'sizes' => '(max-width: 640px) 100vw, (max-width: 1024px) 90vw, 960px',
-            ));
+            $poster = Poster::render($poster_id, $above_fold);
         }
         wp_enqueue_script('dadsoo-aparat-player');
         $css = '';

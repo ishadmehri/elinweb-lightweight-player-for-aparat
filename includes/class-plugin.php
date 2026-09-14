@@ -63,7 +63,7 @@ final class Plugin {
                     return $result;
                 }
                 return rest_ensure_response(array('hash' => $hash, 'title' => $result['title'],
-                    'posterId' => $result['poster_id'], 'posterUrl' => wp_get_attachment_image_url($result['poster_id'], 'large')));
+                    'posterId' => $result['poster_id'], 'posterUrl' => Poster::url($result['poster_id'])));
             },
         ));
     }
