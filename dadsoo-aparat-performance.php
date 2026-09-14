@@ -1,16 +1,18 @@
 <?php
 /**
  * Plugin Name: Dadsoo Aparat Performance
+ * Plugin URI: https://elinweb.ir
  * Description: ویدئوی آپارات با پوستر محلی و بارگذاری پلیر پس از کلیک؛ بلوک وردپرس، ویجت المنتور و شورت‌کد.
- * Version: 1.2.2
+ * Version: 1.2.3
  * Requires at least: 6.3
  * Requires PHP: 7.4
- * Author: Dadsoo
+ * Author: ishadmehri
+ * Author URI: https://elinweb.ir
  * License: GPL-2.0-or-later
  * Text Domain: dadsoo-aparat-performance
  */
 defined('ABSPATH') || exit;
-define('DSO_AP_VERSION', '1.2.2');
+define('DSO_AP_VERSION', '1.2.3');
 define('DSO_AP_FILE', __FILE__);
 define('DSO_AP_DIR', plugin_dir_path(__FILE__));
 require_once DSO_AP_DIR . 'includes/class-parser.php';

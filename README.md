@@ -2,6 +2,8 @@
 
 A WordPress plugin for performance-focused Aparat embeds, with a Gutenberg block, an optional Elementor widget, a shortcode, and a PHP API for article injectors.
 
+Author: **ishadmehri** · [Plugin website](https://elinweb.ir)
+
 [Download the installable ZIP](https://github.com/ishadmehri/dadsoo-aparat-performance/releases/latest) · [راهنمای فارسی](README-FA.md)
 
 ## Features
@@ -19,7 +21,7 @@ A WordPress plugin for performance-focused Aparat embeds, with a Gutenberg block
 
 Requires WordPress 6.3+ and PHP 7.4+. Tested with WordPress 7.1. Elementor is optional.
 
-1. Download `dadsoo-aparat-performance-1.2.2.zip` from [Releases](https://github.com/ishadmehri/dadsoo-aparat-performance/releases).
+1. Download `dadsoo-aparat-performance-1.2.3.zip` from [Releases](https://github.com/ishadmehri/dadsoo-aparat-performance/releases).
 2. In WordPress, go to **Plugins → Add New → Upload Plugin**, upload the ZIP, and activate it.
 3. Add the **آپارات بهینه دادسو** block or Elementor widget and paste the Aparat link.
 4. Clear page/CDN caches after replacing an older plugin version or embed.
