@@ -1,0 +1,29 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "dadsoo/aparat-performance",
+  "version": "1.2.1",
+  "title": "آپارات بهینه دادسو",
+  "category": "embed",
+  "icon": "video-alt3",
+  "description": "پوستر محلی؛ پلیر آپارات فقط پس از کلیک بارگذاری می‌شود.",
+  "keywords": ["aparat", "dadsoo", "ویدئو"],
+  "textdomain": "dadsoo-aparat-performance",
+  "attributes": {
+    "url": {"type": "string", "default": ""},
+    "title": {"type": "string", "default": ""},
+    "posterId": {"type": "number", "default": 0},
+    "posterURL": {"type": "string", "default": ""},
+    "ratio": {"type": "string", "default": "16/9"},
+    "aboveFold": {"type": "boolean", "default": false},
+    "muted": {"type": "boolean"},
+    "titleShow": {"type": "boolean"},
+    "startTime": {"type": "number"},
+    "recom": {"type": "string", "enum": ["default", "self"]},
+    "playerType": {"type": "string", "enum": ["native", "aparat"], "default": "native"}
+  },
+  "supports": {"html": false, "customClassName": false},
+  "editorScript": "dadsoo-aparat-editor",
+  "editorStyle": "file:../assets/player.css",
+  "viewScript": "dadsoo-aparat-player"
+}
