@@ -1,0 +1,32 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Lightweight Player for Aparat 2.0.1\n"
+"Report-Msgid-Bugs-To: https://elinweb.ir\n"
+"POT-Creation-Date: 2026-09-14 19:00+0330\n"
+"PO-Revision-Date: 2026-09-14 19:00+0330\n"
+"Last-Translator: Iman Shadmehri\n"
+"Language-Team: Persian\n"
+"Language: fa_IR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Domain: lightweight-player-for-aparat\n"
+
+#: lightweight-player-for-aparat.php includes/class-elementor-widget.php
+msgid "Lightweight Player for Aparat"
+msgstr "آپارات بهینه شده"
+
+#: lightweight-player-for-aparat.php
+msgid "Embed Aparat videos with local posters and click-to-play playback. Includes a WordPress block, Elementor widget, and shortcode."
+msgstr "نمایش ویدئوی آپارات با پوستر محلی و پخش پس از کلیک؛ همراه با بلوک وردپرس، ویجت المنتور و شورت‌کد."
+
+#: block/block.json
+msgctxt "block title"
+msgid "Lightweight Player for Aparat"
+msgstr "آپارات بهینه شده"
+
+#: block/block.json
+msgctxt "block description"
+msgid "Local poster; the Aparat video player loads only after a click."
+msgstr "نمایش پوستر محلی؛ پلیر ویدئوی آپارات فقط پس از کلیک بارگذاری می‌شود."

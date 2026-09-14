@@ -1,0 +1,39 @@
+# Translations template for Lightweight Player for Aparat.
+# Copyright (C) 2026 Iman Shadmehri and contributors
+# This file is distributed under the same license as the Lightweight Player for Aparat project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Lightweight Player for Aparat 2.0.1\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2026-09-14 19:09+0330\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: includes/class-elementor-widget.php lightweight-player-for-aparat.php
+msgid "Lightweight Player for Aparat"
+msgstr ""
+
+#: lightweight-player-for-aparat.php
+msgid ""
+"Embed Aparat videos with local posters and click-to-play playback. Includes a WordPress block, "
+"Elementor widget, and shortcode."
+msgstr ""
+
+#: block/block.json
+msgctxt "block title"
+msgid "Lightweight Player for Aparat"
+msgstr ""
+
+#: block/block.json
+msgctxt "block description"
+msgid "Local poster; the Aparat video player loads only after a click."
+msgstr ""
+

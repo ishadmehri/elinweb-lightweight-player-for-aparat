@@ -4,7 +4,7 @@ defined('ABSPATH') || exit;
 
 class Elementor_Widget extends \Elementor\Widget_Base {
     public function get_name() { return 'lightweight-player-for-aparat'; }
-    public function get_title() { return 'پلیر سبک آپارات'; }
+    public function get_title() { return __('Lightweight Player for Aparat', 'lightweight-player-for-aparat'); }
     public function get_icon() { return 'eicon-play'; }
     public function get_categories() { return array('general'); }
     public function get_keywords() { return array('aparat', 'video', 'lightweight-player', 'آپارات', 'ویدئو'); }

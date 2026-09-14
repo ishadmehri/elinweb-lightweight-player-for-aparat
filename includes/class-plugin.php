@@ -4,6 +4,7 @@ defined('ABSPATH') || exit;
 
 final class Plugin {
     public static function boot() {
+        add_action('init', array(__CLASS__, 'translations'), 0);
         add_filter('the_content', array('LightweightPlayer\\Aparat\\Poster', 'repair_content'), PHP_INT_MAX);
         add_filter('elementor/widget/render_content', array('LightweightPlayer\\Aparat\\Poster', 'repair_content'), PHP_INT_MAX);
         add_action('dso_ap_warm_video', array('LightweightPlayer\\Aparat\\Metadata', 'warm'), 10, 2);
@@ -21,6 +22,10 @@ final class Plugin {
         add_filter('script_loader_tag', array(__CLASS__, 'script_tag'), 10, 2);
         add_filter('perfmatters_delay_js_exclusions', array(__CLASS__, 'delay_exclusions'));
         register_deactivation_hook(LWPA_FILE, function () { wp_unschedule_hook('lwpa_warm_video'); wp_unschedule_hook('dso_ap_warm_video'); });
+    }
+
+    public static function translations() {
+        load_plugin_textdomain('lightweight-player-for-aparat', false, dirname(plugin_basename(LWPA_FILE)) . '/languages');
     }
 
     public static function register() {
