@@ -1,5 +1,5 @@
 <?php
-namespace Dadsoo\Aparat;
+namespace LightweightPlayer\Aparat;
 defined('ABSPATH') || exit;
 
 final class Renderer {
@@ -24,9 +24,9 @@ final class Renderer {
         $player_type = $args['playerType'] === 'aparat' ? 'aparat' : 'native';
         $stream_attribute = '';
         if ($player_type === 'native') {
-            $stream_url = add_query_arg(array('action' => 'dadsoo_aparat_stream', 'hash' => $hash), admin_url('admin-ajax.php'));
+            $stream_url = add_query_arg(array('action' => 'lwpa_aparat_stream', 'hash' => $hash), admin_url('admin-ajax.php'));
             $stream_attribute = ' data-stream-url="' . esc_url($stream_url) . '" data-stream-fallback="' .
-                esc_url(add_query_arg('backup', '1', rest_url('dadsoo-aparat/v1/stream/' . $hash))) . '"';
+                esc_url(add_query_arg('backup', '1', rest_url('lightweight-player/v1/stream/' . $hash))) . '"';
         }
         $data = Metadata::cached($hash);
         Metadata::schedule($hash, get_the_ID());
@@ -38,17 +38,17 @@ final class Renderer {
         if ($poster_id && wp_attachment_is_image($poster_id)) {
             $poster = Poster::render($poster_id, $above_fold);
         }
-        wp_enqueue_script('dadsoo-aparat-player');
+        wp_enqueue_script('lwpa-player');
         $css = '';
         // Tiny inline CSS appears once, including shortcodes rendered after wp_head.
         if (!self::$css_printed) {
             self::$css_printed = true;
-            $css = '<style id="dadsoo-aparat-performance-css">' . file_get_contents(DSO_AP_DIR . 'assets/player.css') . '</style>';
+            $css = '<style id="lightweight-player-for-aparat-css">' . file_get_contents(LWPA_DIR . 'assets/player.css') . '</style>';
         }
-        return $css . '<div class="dso-ap" data-dso-aparat="' . esc_attr($hash) . '" data-video-title="' . esc_attr($title) .
+        return $css . '<div class="lwpa" data-lwpa-aparat="' . esc_attr($hash) . '" data-video-title="' . esc_attr($title) .
             '" data-player-options="' . esc_attr(wp_json_encode((object) $options)) . '" data-player-type="' . esc_attr($player_type) . '"' . $stream_attribute . ' style="aspect-ratio:' . esc_attr($ratio) . '">' .
-            '<a class="dso-ap__trigger" href="' . esc_url('https://www.aparat.com/v/' . $hash) .
+            '<a class="lwpa__trigger" href="' . esc_url('https://www.aparat.com/v/' . $hash) .
             '" aria-label="' . esc_attr('پخش ' . $title) . '">' . $poster .
-            '<span class="dso-ap__label" aria-hidden="true"><svg width="32" height="32" viewBox="0 0 24 24" focusable="false"><path fill="currentColor" d="M8 5v14l11-7z"/></svg></span></a></div>';
+            '<span class="lwpa__label" aria-hidden="true"><svg width="32" height="32" viewBox="0 0 24 24" focusable="false"><path fill="currentColor" d="M8 5v14l11-7z"/></svg></span></a></div>';
     }
 }

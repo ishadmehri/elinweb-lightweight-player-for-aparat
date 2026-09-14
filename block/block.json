@@ -1,14 +1,14 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
-  "name": "dadsoo/aparat-performance",
-  "version": "1.2.4",
-  "title": "آپارات بهینه دادسو",
+  "name": "lightweight-player/aparat",
+  "version": "2.0.0",
+  "title": "پلیر سبک آپارات",
   "category": "embed",
   "icon": "video-alt3",
   "description": "پوستر محلی؛ پلیر آپارات فقط پس از کلیک بارگذاری می‌شود.",
-  "keywords": ["aparat", "dadsoo", "ویدئو"],
-  "textdomain": "dadsoo-aparat-performance",
+  "keywords": ["aparat", "video", "ویدئو"],
+  "textdomain": "lightweight-player-for-aparat",
   "attributes": {
     "url": {"type": "string", "default": ""},
     "title": {"type": "string", "default": ""},
@@ -23,7 +23,7 @@
     "playerType": {"type": "string", "enum": ["native", "aparat"], "default": "native"}
   },
   "supports": {"html": false, "customClassName": false},
-  "editorScript": "dadsoo-aparat-editor",
+  "editorScript": "lwpa-editor",
   "editorStyle": "file:../assets/player.css",
-  "viewScript": "dadsoo-aparat-player"
+  "viewScript": "lwpa-player"
 }

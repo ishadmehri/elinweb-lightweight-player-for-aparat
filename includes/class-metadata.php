@@ -1,21 +1,22 @@
 <?php
-namespace Dadsoo\Aparat;
+namespace LightweightPlayer\Aparat;
 defined('ABSPATH') || exit;
 
 final class Metadata {
     public static function cached($hash) {
-        $data = get_option('dso_ap_video_' . $hash, array());
+        $data = get_option('lwpa_video_' . $hash, array());
+        if (empty($data)) $data = get_option('dso_ap_video_' . $hash, array());
         return is_array($data) ? $data : array();
     }
 
     public static function schedule($hash, $post_id = 0) {
         $cached = self::cached($hash);
-        if ($hash === '' || (!empty($cached['poster_id']) && wp_attachment_is_image($cached['poster_id'])) || get_transient('dso_ap_error_' . $hash)) {
+        if ($hash === '' || (!empty($cached['poster_id']) && wp_attachment_is_image($cached['poster_id'])) || get_transient('lwpa_error_' . $hash)) {
             return;
         }
         $args = array($hash, (int) $post_id);
-        if (!wp_next_scheduled('dso_ap_warm_video', $args)) {
-            wp_schedule_single_event(time() + 5, 'dso_ap_warm_video', $args);
+        if (!wp_next_scheduled('lwpa_warm_video', $args)) {
+            wp_schedule_single_event(time() + 5, 'lwpa_warm_video', $args);
         }
     }
 
@@ -28,10 +29,10 @@ final class Metadata {
         if (!empty($cached['poster_id']) && wp_attachment_is_image($cached['poster_id'])) {
             return $cached;
         }
-        if (get_transient('dso_ap_error_' . $hash)) {
+        if (get_transient('lwpa_error_' . $hash)) {
             return new \WP_Error('video_unavailable', 'دریافت پوستر موقتاً ناموفق بود؛ لینک و دکمه همچنان قابل استفاده‌اند. چند دقیقه بعد دوباره امتحان کنید.');
         }
-        $lock = 'dso_ap_lock_' . $hash;
+        $lock = 'lwpa_lock_' . $hash;
         $locked_at = (int) get_option($lock, 0);
         if ($locked_at && $locked_at < time() - 120) {
             delete_option($lock);
@@ -57,8 +58,8 @@ final class Metadata {
                 return self::failure($hash);
             }
             $data = array('title' => $title, 'poster_id' => (int) $poster_id, 'resolved_at' => time());
-            update_option('dso_ap_video_' . $hash, $data, false);
-            delete_transient('dso_ap_error_' . $hash);
+            update_option('lwpa_video_' . $hash, $data, false);
+            delete_transient('lwpa_error_' . $hash);
             return $data;
         } finally {
             delete_option($lock);
@@ -66,7 +67,7 @@ final class Metadata {
     }
 
     private static function failure($hash) {
-        set_transient('dso_ap_error_' . $hash, 1, 5 * MINUTE_IN_SECONDS);
+        set_transient('lwpa_error_' . $hash, 1, 5 * MINUTE_IN_SECONDS);
         return new \WP_Error('video_unavailable', 'عنوان یا پوستر از آپارات دریافت نشد. دکمه ویدئو بدون پوستر کار می‌کند؛ چند دقیقه بعد دوباره امتحان کنید.');
     }
 
@@ -79,7 +80,8 @@ final class Metadata {
         }
         // Reuse an existing imported attachment when the metadata cache was removed.
         $existing = get_posts(array('post_type' => 'attachment', 'post_status' => 'inherit', 'fields' => 'ids',
-            'posts_per_page' => 1, 'meta_key' => '_dso_ap_hash', 'meta_value' => $hash));
+            'posts_per_page' => 1, 'meta_query' => array('relation' => 'OR',
+                array('key' => '_lwpa_hash', 'value' => $hash), array('key' => '_dso_ap_hash', 'value' => $hash))));
         if ($existing && wp_attachment_is_image($existing[0])) {
             return (int) $existing[0];
         }
@@ -118,7 +120,7 @@ final class Metadata {
             }
             $id = media_handle_sideload(array('name' => 'aparat-' . $hash . '.' . $extension, 'tmp_name' => $tmp), 0, $title);
             if (!is_wp_error($id)) {
-                update_post_meta($id, '_dso_ap_hash', $hash);
+                update_post_meta($id, '_lwpa_hash', $hash);
             }
             return $id;
         } finally {

@@ -1,10 +1,10 @@
-# Dadsoo Aparat Performance
+# Lightweight Player for Aparat
 
 A WordPress plugin for performance-focused Aparat embeds, with a Gutenberg block, an optional Elementor widget, a shortcode, and a PHP API for article injectors.
 
-Author: **ishadmehri** · [Plugin website](https://elinweb.ir)
+Author: **Iman Shadmehri** · WordPress.org: [imansh](https://profiles.wordpress.org/imansh/) · [Plugin website](https://elinweb.ir)
 
-[Download the installable ZIP](https://github.com/ishadmehri/dadsoo-aparat-performance/releases/latest) · [راهنمای فارسی](README-FA.md)
+[Download the installable ZIP](https://github.com/ishadmehri/lightweight-player-for-aparat/releases/latest) · [راهنمای فارسی](README-FA.md)
 
 ## Features
 
@@ -21,24 +21,26 @@ Author: **ishadmehri** · [Plugin website](https://elinweb.ir)
 
 Requires WordPress 6.3+ and PHP 7.4+. Tested with WordPress 7.1. Elementor is optional.
 
-1. Download `dadsoo-aparat-performance-1.2.4.zip` from [Releases](https://github.com/ishadmehri/dadsoo-aparat-performance/releases).
+Before migrating from **Dadsoo Aparat Performance**, deactivate the old plugin. Install the new ZIP separately, activate it, and clear page/CDN caches. Old blocks, widgets, shortcodes, PHP integrations, and imported posters remain supported. Do not activate both plugins at the same time.
+
+1. Download `lightweight-player-for-aparat-2.0.0.zip` from [Releases](https://github.com/ishadmehri/lightweight-player-for-aparat/releases).
 2. In WordPress, go to **Plugins → Add New → Upload Plugin**, upload the ZIP, and activate it.
-3. Add the **آپارات بهینه دادسو** block or Elementor widget and paste the Aparat link.
+3. Add the **پلیر سبک آپارات** block or Elementor widget and paste the Aparat link.
 4. Clear page/CDN caches after replacing an older plugin version or embed.
 
-The release ZIP contains the `dadsoo-aparat-performance` plugin directory. Use that asset for installation.
+The release ZIP contains the `lightweight-player-for-aparat` plugin directory. Use that asset for installation.
 
 ## Shortcode
 
 ```text
-[dadsoo_aparat url="https://www.aparat.com/v/ytf50k5"]
-[dadsoo_aparat url="https://www.aparat.com/v/ytf50k5" start_time="65" muted="true"]
+[lwpa_aparat url="https://www.aparat.com/v/ytf50k5"]
+[lwpa_aparat url="https://www.aparat.com/v/ytf50k5" start_time="65" muted="true"]
 ```
 
 To use the official Aparat iframe player:
 
 ```text
-[dadsoo_aparat url="https://www.aparat.com/v/ytf50k5" player="aparat" title_show="true" recom="self"]
+[lwpa_aparat url="https://www.aparat.com/v/ytf50k5" player="aparat" title_show="true" recom="self"]
 ```
 
 The current official player may require a second internal Play click. `title_show` and `recom` apply only to official-player mode.
@@ -48,8 +50,8 @@ The current official player may require a second internal Play click. `title_sho
 Replace your injector's individual embed output with:
 
 ```php
-if (function_exists('dadsoo_aparat_performance_render')) {
-    $video_html = dadsoo_aparat_performance_render($aparat_url, array(
+if (function_exists('lightweight_player_for_aparat_render')) {
+    $video_html = lightweight_player_for_aparat_render($aparat_url, array(
         'startTime' => 65,
         'muted' => true,
     ));
@@ -66,7 +68,7 @@ Version 1.2.2 repairs empty image sources and malformed responsive candidates su
 
 After a click, a public WordPress endpoint resolves a temporary MP4 URL from Aparat and redirects the browser to its CDN. PHP does not proxy video bytes. Signed source URLs are cached briefly on the server and never stored in cached article HTML. Live playback depends on host access to the Aparat API and visitor access to its CDN; no PageSpeed score is guaranteed.
 
-Exclude the `dadsoo_aparat_stream` action on `/wp-admin/admin-ajax.php` and `/wp-json/dadsoo-aparat/v1/stream/*` from independent CDN/REST caching. The plugin sends `Cache-Control: no-store` for those media responses.
+Exclude the `lwpa_aparat_stream` action on `/wp-admin/admin-ajax.php` and `/wp-json/lightweight-player/v1/stream/*` from independent CDN/REST caching. The plugin sends `Cache-Control: no-store` for those media responses.
 
 Enable above-fold poster priority only for posters visible without scrolling. WP-Cron must run for background poster imports. See the [Persian guide](README-FA.md) for the full settings and cache integration notes.
 
@@ -78,10 +80,12 @@ Run the dependency-free player regression tests with Node.js:
 node --test tests/player.test.cjs
 ```
 
-The nine tests cover click-to-play, settings, dynamic embeds, route fallback, loading timeout, and in-page retry after failure. PHP syntax was checked with PHP 8.3; WordPress/Elementor integration and real Aparat MP4 playback were also checked in an isolated development environment.
+The player tests cover click-to-play, settings, dynamic embeds, route fallback, loading timeout, and in-page retry after failure. PHP syntax and WordPress 7.1/Elementor integration are checked in an isolated development environment.
 
 `php tests/poster.php /path/to/disposable-wordpress-bootstrap.php` checks poster rendering and the blank-src/900w regression against WordPress. Use a disposable database: the test creates and removes its own attachment record.
 
 ## License
+
+See [readme.txt](readme.txt) for WordPress directory metadata, the external-service disclosure, changelog, and FAQ. The repository includes `tests/wordpress.php` and `tests/migration.php` for integration and compatibility checks; run them with a disposable WordPress bootstrap.
 
 GPL-2.0-or-later. See [LICENSE.txt](LICENSE.txt).

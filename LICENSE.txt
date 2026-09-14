@@ -1,6 +1,6 @@
-Dadsoo Aparat Performance
+Lightweight Player for Aparat
 
-Copyright 2026 Dadsoo Aparat Performance contributors
+Copyright 2026 Iman Shadmehri and contributors
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by

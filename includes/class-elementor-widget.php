@@ -1,14 +1,14 @@
 <?php
-namespace Dadsoo\Aparat;
+namespace LightweightPlayer\Aparat;
 defined('ABSPATH') || exit;
 
-final class Elementor_Widget extends \Elementor\Widget_Base {
-    public function get_name() { return 'dadsoo-aparat-performance'; }
-    public function get_title() { return 'آپارات بهینه دادسو'; }
+class Elementor_Widget extends \Elementor\Widget_Base {
+    public function get_name() { return 'lightweight-player-for-aparat'; }
+    public function get_title() { return 'پلیر سبک آپارات'; }
     public function get_icon() { return 'eicon-play'; }
     public function get_categories() { return array('general'); }
-    public function get_keywords() { return array('aparat', 'video', 'dadsoo', 'آپارات', 'ویدئو'); }
-    public function get_script_depends() { return array('dadsoo-aparat-player'); }
+    public function get_keywords() { return array('aparat', 'video', 'lightweight-player', 'آپارات', 'ویدئو'); }
+    public function get_script_depends() { return array('lwpa-player'); }
 
     protected function register_controls() {
         $this->start_controls_section('video', array('label' => 'ویدئوی آپارات'));
@@ -64,4 +64,10 @@ final class Elementor_Widget extends \Elementor\Widget_Base {
         }
         echo Renderer::render($args);
     }
+}
+
+/** Hidden compatibility widget for existing Elementor documents. */
+final class Legacy_Elementor_Widget extends Elementor_Widget {
+    public function get_name() { return 'dadsoo-aparat-performance'; }
+    public function show_in_panel() { return false; }
 }

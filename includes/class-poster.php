@@ -1,5 +1,5 @@
 <?php
-namespace Dadsoo\Aparat;
+namespace LightweightPlayer\Aparat;
 defined('ABSPATH') || exit;
 
 /** Repair attachment markup without network requests or changing media records. */
@@ -34,9 +34,9 @@ final class Poster {
     public static function render($id, $above_fold) {
         $url = self::url($id);
         if ($url === '') return '';
-        $attributes = array('class' => 'dso-ap__poster', 'alt' => '', 'decoding' => 'async',
-            'data-dso-poster-src' => $url,
-            'data-dso-poster-id' => $id,
+        $attributes = array('class' => 'lwpa__poster', 'alt' => '', 'decoding' => 'async',
+            'data-lwpa-poster-src' => $url,
+            'data-lwpa-poster-id' => $id,
             'loading' => $above_fold ? 'eager' : 'lazy', 'fetchpriority' => $above_fold ? 'high' : 'auto',
             'sizes' => '(max-width: 640px) 100vw, (max-width: 1024px) 90vw, 960px');
         $html = wp_get_attachment_image($id, 'large', false, $attributes);
@@ -72,21 +72,21 @@ final class Poster {
 
     /** Content filters/injectors can change URLs after the player has rendered. */
     public static function repair_content($html) {
-        if (!is_string($html) || strpos($html, 'dso-ap__poster') === false) return $html;
+        if (!is_string($html) || (strpos($html, 'lwpa__poster') === false && strpos($html, 'dso-ap__poster') === false)) return $html;
         $tags = new \WP_HTML_Tag_Processor($html);
         $id = 0;
         while ($tags->next_tag()) {
-            if ($tags->get_tag() === 'DIV' && $tags->get_attribute('data-dso-aparat')) {
-                $hash = $tags->get_attribute('data-dso-aparat');
+            if ($tags->get_tag() === 'DIV' && ($tags->get_attribute('data-lwpa-aparat') ?: $tags->get_attribute('data-dso-aparat'))) {
+                $hash = ($tags->get_attribute('data-lwpa-aparat') ?: $tags->get_attribute('data-dso-aparat'));
                 $id = 0;
                 if (preg_match('/^[a-zA-Z0-9]{1,40}$/D', $hash)) {
                     $data = Metadata::cached($hash);
                     $id = absint($data['poster_id'] ?? 0);
                 }
             }
-            if ($tags->get_tag() !== 'IMG' || !$tags->has_class('dso-ap__poster')) continue;
-            $url = $tags->get_attribute('data-dso-poster-src');
-            $image_id = absint($tags->get_attribute('data-dso-poster-id')) ?: $id;
+            if ($tags->get_tag() !== 'IMG' || (!$tags->has_class('lwpa__poster') && !$tags->has_class('dso-ap__poster'))) continue;
+            $url = $tags->get_attribute('data-lwpa-poster-src') ?: $tags->get_attribute('data-dso-poster-src');
+            $image_id = absint($tags->get_attribute('data-lwpa-poster-id')) ?: (absint($tags->get_attribute('data-dso-poster-id')) ?: $id);
             if (!self::valid_url($url)) $url = $image_id ? self::url($image_id) : '';
             if (!self::valid_url($url)) continue;
             if (!self::valid_url($tags->get_attribute('src'))

@@ -1,16 +1,22 @@
-# آپارات بهینه دادسو
+# پلیر سبک آپارات
 
-نویسنده: **ishadmehri** · [وب‌سایت افزونه](https://elinweb.ir)
+نویسنده: **Iman Shadmehri** (ایمان شادمهری) · حساب وردپرس: [imansh](https://profiles.wordpress.org/imansh/) · [وب‌سایت افزونه](https://elinweb.ir)
+
+## مهاجرت به نسخه ۲٫۰٫۰
+
+اگر نسخه قدیمی «Dadsoo Aparat Performance» نصب است، ابتدا آن را غیرفعال کنید، ZIP افزونه جدید را جداگانه نصب و فعال کنید و کش صفحه و CDN را پاک کنید. هر دو افزونه را هم‌زمان فعال نگذارید. بلوک‌ها، ویجت‌ها، شورت‌کدها و تابع PHP قدیمی همچنان پشتیبانی می‌شوند و پوسترهای قبلی دوباره استفاده خواهند شد؛ نیازی به ساخت مجدد ویدئوها نیست.
+
+نام پوشه و فایل اصلی افزونه به `lightweight-player-for-aparat` تغییر کرده است. شورت‌کد جدید `lwpa_aparat` و تابع جدید `lightweight_player_for_aparat_render()` است. در صورت داشتن تنظیمات کش مستقل، مسیر `/wp-json/lightweight-player/v1/stream/*` و اکشن `lwpa_aparat_stream` در `admin-ajax.php` را از کش خارج کنید.
 
 ZIP افزونه را از «افزونه‌ها ← افزودن افزونه ← بارگذاری افزونه» نصب و فعال کنید.
 
-در ویرایشگر بلوک وردپرس، بلوک «آپارات بهینه دادسو» را اضافه کنید و لینک ویدئو را وارد کنید:
+در ویرایشگر بلوک وردپرس، بلوک «پلیر سبک آپارات» را اضافه کنید و لینک ویدئو را وارد کنید:
 
 ```text
 https://www.aparat.com/v/ytf50k5
 ```
 
-در المنتور هم ویجت «آپارات بهینه دادسو» در دسته عمومی با همین ورودی در دسترس است. المنتور برای استفاده از بلوک یا شورت‌کد الزامی نیست.
+در المنتور هم ویجت «پلیر سبک آپارات» در دسته عمومی با همین ورودی در دسترس است. المنتور برای استفاده از بلوک یا شورت‌کد الزامی نیست.
 
 عنوان و پوستر خودکارند؛ عنوان دلخواه، تصویر جایگزین از رسانه‌های وردپرس و نسبت افقی/عمودی/مربع اختیاری‌اند.
 فقط اگر پوستر بدون اسکرول دیده می‌شود، گزینه «پوستر در ابتدای صفحه است» را روشن کنید.
@@ -50,13 +56,13 @@ https://www.aparat.com/v/ytf50k5
 نمونه شورت‌کد مطابق کدهای فرستاده‌شده:
 
 ```text
-[dadsoo_aparat url="https://www.aparat.com/v/ytf50k5" start_time="65" muted="true" title_show="true" recom="self"]
+[lwpa_aparat url="https://www.aparat.com/v/ytf50k5" start_time="65" muted="true" title_show="true" recom="self"]
 ```
 
 نمونه تابع PHP برای افزونه تزریق:
 
 ```php
-$video_html = dadsoo_aparat_performance_render($aparat_url, array(
+$video_html = lightweight_player_for_aparat_render($aparat_url, array(
     'startTime' => 65,
     'muted' => true,
     'titleShow' => true,
@@ -73,16 +79,16 @@ $video_html = dadsoo_aparat_performance_render($aparat_url, array(
 به‌جای تولید کد script یا iframe قدیمی، خروجی این تابع را وارد مقاله کنید:
 
 ```php
-if (function_exists('dadsoo_aparat_performance_render')) {
-    $video_html = dadsoo_aparat_performance_render($aparat_url);
+if (function_exists('lightweight_player_for_aparat_render')) {
+    $video_html = lightweight_player_for_aparat_render($aparat_url);
 }
 ```
 
 تابع کد قدیمی یک ویدئو را هم می‌پذیرد؛ اگر رکوردهای موجود را از دیتابیس می‌خوانید:
 
 ```php
-if (function_exists('dadsoo_aparat_performance_render')) {
-    $video_html = dadsoo_aparat_performance_render($stored_embed_html);
+if (function_exists('lightweight_player_for_aparat_render')) {
+    $video_html = lightweight_player_for_aparat_render($stored_embed_html);
 }
 ```
 
@@ -91,7 +97,7 @@ if (function_exists('dadsoo_aparat_performance_render')) {
 استفاده از شورت‌کد هم ممکن است:
 
 ```text
-[dadsoo_aparat url="https://www.aparat.com/v/ytf50k5"]
+[lwpa_aparat url="https://www.aparat.com/v/ytf50k5"]
 ```
 
 اگر شورت‌کد را در فیلتر the_content پس از مرحله اجرای شورت‌کدها تزریق می‌کنید، آن را صریحاً do_shortcode کنید یا مستقیماً تابع PHP بالا را به کار ببرید.
@@ -108,14 +114,14 @@ if (function_exists('dadsoo_aparat_performance_render')) {
 - ابعاد محل ویدئو از ابتدا رزرو می‌شود و جایگزینی پوستر با پلیر نسبت تصویر را عوض نمی‌کند.
 
 در حالت مرورگر، فایل MP4 فقط هنگام پخش از API سمت سرور پیدا می‌شود و مرورگر با یک redirect مستقیم از CDN آپارات آن را دریافت می‌کند؛ فایل ویدئو از PHP سایت عبور نمی‌کند.
-آدرس موقت امضاشده داخل HTML کش‌شده مقاله ذخیره نمی‌شود. مسیر پیش‌فرض دریافت فایل، admin-ajax.php با action=dadsoo_aparat_stream است و به مجوز REST عمومی وابسته نیست؛ مسیر REST برای بازیابی خودکار نگه داشته شده است.
-این اکشن در /wp-admin/admin-ajax.php و مسیر /wp-json/dadsoo-aparat/v1/stream/* را در CDN یا افزونه کش REST از کش مستثنا کنید؛ پاسخ افزونه هدر no-store دارد.
+آدرس موقت امضاشده داخل HTML کش‌شده مقاله ذخیره نمی‌شود. مسیر پیش‌فرض دریافت فایل، admin-ajax.php با action=lwpa_aparat_stream است و به مجوز REST عمومی وابسته نیست؛ مسیر REST برای بازیابی خودکار نگه داشته شده است.
+این اکشن در /wp-admin/admin-ajax.php و مسیر /wp-json/lightweight-player/v1/stream/* را در CDN یا افزونه کش REST از کش مستثنا کنید؛ پاسخ افزونه هدر no-store دارد.
 
 پس از نصب و جایگزینی خروجی قدیمی، کش راکت و CDN را پاک کنید. اگر پوستر در پس‌زمینه وارد شد، افزونه کش همان نوشته را در WP Rocket پاک می‌کند؛ CDN مستقل ممکن است نیاز به پاک‌سازی کش همان URL داشته باشد.
 
 برای پوسترهای پس‌زمینه، WP-Cron باید اجرا شود. اگر API آپارات از هاست شما در دسترس نباشد، می‌توانید پوستر دستی از رسانه‌های وردپرس انتخاب کنید؛ دکمه و لینک بدون پوستر هم کار می‌کنند.
 
-اگر Remove Unused CSS ظاهر را تغییر داد، کلاس‌های .dso-ap، .dso-ap__trigger، .dso-ap__poster و .dso-ap__label را در safelist قرار دهید.
+اگر Remove Unused CSS ظاهر را تغییر داد، کلاس‌های .lwpa، .lwpa__trigger، .lwpa__poster و .lwpa__label را در safelist قرار دهید.
 
 در Network عبارت aparat را فیلتر کنید: تا قبل از کلیک نباید پلیر این ویدئو درخواست شود. اگر کد قدیمی آپارات در همان صفحه باقی مانده باشد، درخواست‌های آن همچنان وجود خواهند داشت.
 

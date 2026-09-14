@@ -1,5 +1,5 @@
 <?php
-namespace Dadsoo\Aparat;
+namespace LightweightPlayer\Aparat;
 defined('ABSPATH') || exit;
 
 /** Public MP4 redirect, requested by the video element only after a play click. */
@@ -8,9 +8,9 @@ final class Stream {
         if (!preg_match('/^[a-zA-Z0-9]{1,40}$/D', $hash)) {
             return new \WP_Error('invalid_video', 'شناسه ویدئو معتبر نیست.', array('status' => 400));
         }
-        $cached = get_transient('dso_ap_stream_' . $hash . ($backup ? '_backup' : ''));
+        $cached = get_transient('lwpa_stream_' . $hash . ($backup ? '_backup' : ''));
         if (is_string($cached) && self::valid_url($cached)) return $cached;
-        if (get_transient('dso_ap_stream_error_' . $hash)) {
+        if (get_transient('lwpa_stream_error_' . $hash)) {
             return new \WP_Error('stream_unavailable', 'دریافت فایل ویدئو موقتاً ممکن نیست.', array('status' => 503));
         }
         $response = wp_safe_remote_get('https://www.aparat.com/etc/api/video/videohash/' . rawurlencode($hash),
@@ -22,7 +22,7 @@ final class Stream {
                 $url = self::select_source($video['file_link_all'] ?? array());
                 if ($url) {
                     // Signed CDN links expire; never store them in cached article HTML.
-                    set_transient('dso_ap_stream_' . $hash, $url, MINUTE_IN_SECONDS);
+                    set_transient('lwpa_stream_' . $hash, $url, MINUTE_IN_SECONDS);
                     $host = wp_parse_url($url, PHP_URL_HOST);
                     $alternatives = array();
                     foreach ($video['file_link_all'] as $source) {
@@ -33,12 +33,12 @@ final class Stream {
                         $alternatives[] = $source;
                     }
                     $alternative = self::select_source($alternatives) ?: $url;
-                    set_transient('dso_ap_stream_' . $hash . '_backup', $alternative, MINUTE_IN_SECONDS);
+                    set_transient('lwpa_stream_' . $hash . '_backup', $alternative, MINUTE_IN_SECONDS);
                     return $backup ? $alternative : $url;
                 }
             }
         }
-        set_transient('dso_ap_stream_error_' . $hash, 1, 30);
+        set_transient('lwpa_stream_error_' . $hash, 1, 30);
         if (is_wp_error($response)) {
             return new \WP_Error('stream_unavailable', 'ارتباط هاست با API آپارات ناموفق بود (' . sanitize_key($response->get_error_code()) . ').', array('status' => 503));
         }
@@ -93,7 +93,7 @@ final class Stream {
             wp_send_json(array('url' => $url));
         }
         // Only the trusted CDN URLs validated by resolve() can reach this redirect.
-        wp_redirect($url, 302, 'Dadsoo Aparat Performance');
+        wp_redirect($url, 302, 'Lightweight Player for Aparat');
         exit;
     }
 }

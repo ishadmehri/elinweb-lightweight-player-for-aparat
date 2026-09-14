@@ -1,13 +1,13 @@
 (function () {
   'use strict';
-  if (window.dadsooAparatPerformanceLoaded) return;
-  window.dadsooAparatPerformanceLoaded = true;
+  if (window.lightweightPlayerForAparatLoaded) return;
+  window.lightweightPlayerForAparatLoaded = true;
   document.addEventListener('click', function (event) {
     if (!(event.target instanceof Element)) return;
-    const trigger = event.target.closest('.dso-ap__trigger');
+    const trigger = event.target.closest('.lwpa__trigger, .dso-ap__trigger');
     if (!trigger || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey || event.button !== 0) return;
-    const container = trigger.closest('[data-dso-aparat]');
-    const hash = container && container.dataset.dsoAparat;
+    const container = trigger.closest('[data-lwpa-aparat], [data-dso-aparat]');
+    const hash = container && (container.dataset.lwpaAparat || container.dataset.dsoAparat);
     if (!hash || !/^[a-zA-Z0-9]{1,40}$/.test(hash)) return;
     event.preventDefault();
     let options = {};
@@ -21,7 +21,7 @@
       video.muted = options.muted === true;
       video.title = container.dataset.videoTitle || 'ویدئوی آپارات';
       video.setAttribute('aria-label', video.title);
-      const poster = container.querySelector('.dso-ap__poster');
+      const poster = container.querySelector('.lwpa__poster');
       if (poster) video.poster = poster.currentSrc || poster.src;
       Object.assign(video.style, { position: 'absolute', inset: '0', width: '100%', height: '100%', objectFit: 'contain', background: '#000' });
       if (Number.isInteger(options.startTime) && options.startTime > 0 && options.startTime <= 2147483647) {

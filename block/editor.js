@@ -24,7 +24,7 @@
     } catch (_) { return {}; }
   }
 
-  wp.blocks.registerBlockType('dadsoo/aparat-performance', {
+  const definition = {
     edit: function Edit(props) {
       const a = props.attributes;
       const set = props.setAttributes;
@@ -39,7 +39,7 @@
         if (!a.url.trim()) return;
         const timer = setTimeout(function () {
           setBusy(true);
-          wp.apiFetch({ path: '/dadsoo-aparat/v1/resolve', method: 'POST', data: { url: a.url } })
+          wp.apiFetch({ path: '/lightweight-player/v1/resolve', method: 'POST', data: { url: a.url } })
             .then(function (data) { if (!cancelled) setMetadata(data); })
             .catch(function (err) { if (!cancelled) setError(err.message || 'دریافت پوستر ممکن نشد.'); })
             .finally(function () { if (!cancelled) setBusy(false); });
@@ -89,10 +89,10 @@
             onChange: function (url) { set({ url }); }, help: 'پوستر خودکار در رسانه‌های وردپرس ذخیره می‌شود.' }),
           busy ? el(Spinner) : null,
           error ? el(Notice, { status: 'warning', isDismissible: false }, error) : null,
-          a.url ? el('div', { className: 'dso-ap', style: { aspectRatio: a.ratio } },
-            el('div', { className: 'dso-ap__trigger' },
-              poster ? el('img', { className: 'dso-ap__poster', src: poster, alt: '' }) : null,
-              el('span', { className: 'dso-ap__label', 'aria-hidden': true },
+          a.url ? el('div', { className: 'lwpa', style: { aspectRatio: a.ratio } },
+            el('div', { className: 'lwpa__trigger' },
+              poster ? el('img', { className: 'lwpa__poster', src: poster, alt: '' }) : null,
+              el('span', { className: 'lwpa__label', 'aria-hidden': true },
                 el('svg', { width: 32, height: 32, viewBox: '0 0 24 24', focusable: false },
                   el('path', { fill: 'currentColor', d: 'M8 5v14l11-7z' })
                 )
@@ -104,5 +104,7 @@
       );
     },
     save: function () { return null; }
-  });
+  };
+  wp.blocks.registerBlockType('lightweight-player/aparat', definition);
+  wp.blocks.registerBlockType('dadsoo/aparat-performance', Object.assign({}, definition, { supports: { inserter: false, html: false, customClassName: false } }));
 })(window.wp);

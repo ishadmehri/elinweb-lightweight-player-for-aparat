@@ -24,7 +24,7 @@ function environment() {
     setTimeout(fn) { timers.push(fn); return timers.length; }, clearTimeout() {} });
   vm.runInContext(script, context);
   function video(hash, options) {
-    const container = { dataset: { dsoAparat: hash, videoTitle: 'عنوان', playerOptions: options, playerType: 'aparat' }, querySelector() { return null; },
+    const container = { dataset: { lwpaAparat: hash, videoTitle: 'عنوان', playerOptions: options, playerType: 'aparat' }, querySelector() { return null; },
       children: ['poster'], replaceChildren(...children) { this.children = children; children.forEach(child => { if (typeof child === 'object') child.parentNode = this; }); } };
     const trigger = { closest() { return container; }, cloneNode() { return { setAttribute() {} }; } };
     const target = new Element();
@@ -68,6 +68,17 @@ test('runtime registered twice still has one delegated listener', () => {
   vm.runInContext(script, env.context);
   assert.equal(env.listeners.length, 1);
 });
+test('legacy cached markup still starts native playback', () => {
+  const env = environment();
+  const one = env.video('ytf50k5');
+  delete one.container.dataset.lwpaAparat;
+  one.container.dataset.dsoAparat = 'ytf50k5';
+  one.container.dataset.playerType = 'native';
+  one.container.dataset.streamUrl = '/wp-admin/admin-ajax.php?action=dadsoo_aparat_stream&hash=ytf50k5';
+  assert.equal(env.click(one.target).prevented, true);
+  assert.equal(env.frames[0].tag, 'video');
+  assert.equal(env.frames[0].playCalls, 1);
+});
 test('playback options are forwarded only after click without loading other videos', () => {
   const env = environment();
   const one = env.video('ytf50k5', JSON.stringify({ titleShow: true, startTime: 65, muted: true, recom: 'self' }));
@@ -99,7 +110,7 @@ test('native playback starts during the first click; no iframe or second click; 
   const env = environment();
   const one = env.video('ytf50k5', JSON.stringify({ muted: true, startTime: 65 }));
   one.container.dataset.playerType = 'native';
-  one.container.dataset.streamUrl = 'http://localhost/wp-json/dadsoo-aparat/v1/stream/ytf50k5';
+  one.container.dataset.streamUrl = 'http://localhost/wp-json/lightweight-player/v1/stream/ytf50k5';
   assert.equal(env.frames.length, 0);
   env.click(one.target);
   assert.equal(env.frames.length, 1);
@@ -116,8 +127,8 @@ test('failed primary route retries alternative automatically, preserving one-cli
   const env = environment();
   const one = env.video('ytf50k5');
   one.container.dataset.playerType = 'native';
-  one.container.dataset.streamUrl = '/wp-admin/admin-ajax.php?action=dadsoo_aparat_stream&hash=ytf50k5';
-  one.container.dataset.streamFallback = '/wp-json/dadsoo-aparat/v1/stream/ytf50k5';
+  one.container.dataset.streamUrl = '/wp-admin/admin-ajax.php?action=lwpa_aparat_stream&hash=ytf50k5';
+  one.container.dataset.streamFallback = '/wp-json/lightweight-player/v1/stream/ytf50k5';
   env.click(one.target);
   const video = env.frames[0];
   video.events.error();

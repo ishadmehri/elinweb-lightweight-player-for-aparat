@@ -1,90 +1,144 @@
-=== Dadsoo Aparat Performance ===
-Contributors: ishadmehri
+=== Lightweight Player for Aparat ===
+Contributors: imansh
 Tags: aparat, video, performance, elementor, block
 Requires at least: 6.3
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.2.4
+Stable tag: 2.0.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
+Embed Aparat videos with local posters and click-to-play playback. Includes a WordPress block, Elementor widget, shortcode, and PHP API.
+
 == Description ==
-Optimized Aparat embeds for Gutenberg, Elementor, shortcodes and PHP injectors.
-The initial public HTML contains a local poster and an accessible circular Play icon, never a video element or player iframe.
-The default native browser player calls play() inside the original click and starts when media is ready.
-An optional official Aparat iframe player retains Aparat-specific controls and recommendations.
-One dependency-free frontend script is enqueued only when a video is rendered.
-Tiny CSS is printed inline once per request. No custom fonts, icon libraries, jQuery or frontend metadata API.
-Automatic posters are imported once into the WordPress media library and converted to WebP at quality 75 when the server image editor supports it.
+
+Lightweight Player for Aparat replaces the initial video player with a local poster and a circular Play icon. The player is created only when the visitor clicks Play.
+
+The default mode uses the browser's native video player. This avoids loading Aparat's iframe and player JavaScript, and requests playback during the first click. An optional official Aparat iframe mode is also available.
+
+Paste a link such as https://www.aparat.com/v/ytf50k5 into the block or widget. The plugin retrieves the public title and poster and stores the poster in your WordPress media library. Individual Aparat script and iframe snippets can also be used as input; their code is parsed and never executed.
+
+Features:
+
+* WordPress editor block and optional Elementor widget.
+* Local, responsive posters with WebP conversion when supported by your server.
+* Circular, icon-only Play control with an accessible name and keyboard activation.
+* No Aparat iframe, video element, or player script before the click.
+* Start time, muted playback, aspect ratio, custom title, and poster override.
+* Above-fold poster priority for videos visible without scrolling.
+* Optional official-player settings for title visibility and same-channel recommendations.
+* Automatic fallback for initial media errors or timeouts and an in-page retry control on final failure.
+* One dependency-free frontend script on pages containing the plugin's videos.
+* WP Rocket and Perfmatters Delay JavaScript exclusions for the playback script.
+* Shortcode and PHP integration for custom video injectors.
+
+Poster preparation runs in the editor, on save, or through WP-Cron. Rendering a public page does not make a synchronous Aparat API request. Playback depends on video availability and access to Aparat's API and CDN. Results depend on the rest of your page; a particular PageSpeed score is not guaranteed.
+
+This plugin is independently developed and is not affiliated with or endorsed by Aparat or Elementor.
+
+Author: Iman Shadmehri
+Website: https://elinweb.ir
 
 == Installation ==
-Upload dadsoo-aparat-performance.zip through Plugins > Add New > Upload Plugin and activate.
-Gutenberg: insert "آپارات بهینه دادسو", paste https://www.aparat.com/v/ytf50k5.
-Elementor: drag "آپارات بهینه دادسو" and paste the same URL.
-Optional: custom title, replacement media-library poster, aspect ratio, above-fold poster priority and playback settings.
-Playback controls: start time in seconds, muted, title/icon visibility, same-channel recommendations or Aparat defaults.
-Only startTime, muted, titleShow and recom=self are forwarded; unknown query parameters are discarded.
-When the input is old embed HTML or a URL with parameters, these settings are inherited unless explicitly overridden.
-Keep above-fold priority off for videos below the initial viewport.
 
-== Shortcode ==
-[dadsoo_aparat url="https://www.aparat.com/v/ytf50k5"]
-[dadsoo_aparat url="https://www.aparat.com/v/ytf50k5" title="عنوان" poster="123" ratio="9/16" above_fold="false"]
-[dadsoo_aparat url="https://www.aparat.com/v/ytf50k5" start_time="65" muted="true" title_show="true" recom="self"]
+1. Upload the lightweight-player-for-aparat folder to /wp-content/plugins/, or upload the installable ZIP through Plugins > Add New > Upload Plugin.
+2. Activate Lightweight Player for Aparat.
+3. Add the video block in the WordPress editor or the video widget in Elementor and paste the Aparat link.
+4. Save the article and allow poster preparation to finish. WP-Cron must run for background imports.
+5. Clear page and CDN caches after changing embeds or upgrading.
 
-PHP playback settings:
-dadsoo_aparat_performance_render($url, array('startTime' => 65, 'muted' => true, 'titleShow' => true, 'recom' => 'self'));
-Explicit false and zero override imported settings. recom=default omits the channel restriction; it does not guarantee recommendations are disabled.
+Elementor is optional. The block, shortcode, and PHP integration work without it.
 
-For an existing injector:
-if (function_exists('dadsoo_aparat_performance_render')) {
-    $video_html = dadsoo_aparat_performance_render($aparat_url);
-}
-The PHP API also accepts the individual old iframe/script embed HTML, not an entire article.
-Output is replaced only when your injector calls the API; installing this plugin does not rewrite existing embeds automatically.
+Migrating from Dadsoo Aparat Performance: deactivate the old plugin before activating this plugin. Do not keep both active. Old saved blocks, Elementor widgets, shortcodes, and imported posters remain supported. The plugin folder and entry filename have changed: install the new ZIP separately instead of expecting it to overwrite the old folder. Clear caches and update custom playback cache exclusions.
+
+== Frequently Asked Questions ==
+
+= How do I use a shortcode? =
+
+[lwpa_aparat url="https://www.aparat.com/v/ytf50k5"]
+
+[lwpa_aparat url="https://www.aparat.com/v/ytf50k5" start_time="65" muted="true" ratio="16/9"]
+
+Use poster="123" for a WordPress image attachment ID, title="Your title" for a custom title, and above_fold="true" only when the poster is visible without scrolling.
+
+For the official player:
+
+[lwpa_aparat url="https://www.aparat.com/v/ytf50k5" player="aparat" title_show="true" recom="self"]
+
+= Is this only iframe lazy loading? =
+
+No. The default native mode replaces the iframe entirely with a local poster and creates a browser video player after a click. It does not download Aparat's player JavaScript.
+
+= Does the video play with one click? =
+
+Native mode requests playback inside the visitor's click handler. Media availability and browser policies still apply; the player can retry muted playback if the browser rejects it. Official iframe mode requests autoplay, but Aparat or the browser may require an additional internal Play click.
+
+= Does the plugin contact Aparat before the visitor clicks? =
+
+Your server contacts Aparat to prepare posters while editing, saving, or running a background job. The visitor receives the stored poster from your site. This plugin makes no browser request to Aparat before Play. Other embeds and plugins on the page may behave differently.
+
+= What if poster preparation fails? =
+
+The Play control remains available. Select an image from the media library or retry preparation later. WebP support is optional; a validated original image format is used when conversion is unavailable.
+
+= How do I use a custom injector? =
+
+Call lightweight_player_for_aparat_render($aparat_url, $args) and insert the returned HTML. Arguments use block attribute names, including startTime, muted, posterId, aboveFold, and playerType. The function accepts one legacy embed snippet. Arbitrary existing article HTML is not automatically rewritten.
+
+= Are old embeds preserved after the rename? =
+
+The dadsoo_aparat shortcode, dadsoo/aparat-performance block, dadsoo-aparat-performance Elementor widget, and dadsoo_aparat_performance_render() function remain supported as compatibility aliases. Saved content does not need to be recreated. Imported poster cache and attachment records are reused. New embeds use the new identifiers.
+
+= What cache settings are needed? =
+
+The plugin excludes its player script from WP Rocket and Perfmatters Delay JavaScript. Public playback responses send Cache-Control: no-store. With independent CDN or REST caching, exclude the lwpa_aparat_stream action on /wp-admin/admin-ajax.php and /wp-json/lightweight-player/v1/stream/* from caching. Preserve old endpoint exclusions while older cached markup remains in use. Video bytes come from Aparat's CDN; PHP does not proxy the file.
+
+= Does this add video structured data? =
+
+No. Preserve accurate VideoObject structured data supplied by your theme, SEO plugin, or existing injector.
 
 == External services ==
-Aparat public video metadata endpoint: https://www.aparat.com/etc/api/video/videohash/HASH
-While editing, or in a background WP-Cron job, the server sends the public video hash to Aparat to get its title and poster.
-The poster is downloaded from an Aparat CDN and stored locally. No account token is required.
-When a visitor clicks Play in native mode, the server requests the public MP4 URL from that API and redirects the browser to the Aparat CDN. Video bytes do not pass through PHP.
-In optional official-player mode, the visitor loads the Aparat iframe after clicking.
-Aparat terms: https://www.aparat.com/terms
-Aparat site: https://www.aparat.com/
-The endpoint can change or be blocked by the host. Missing posters do not prevent playback; unavailable MP4 sources show a retry icon and error status without navigating away.
 
-== Performance and compatibility ==
-No Aparat request from the visitor before clicking, provided other unoptimized embeds are absent.
-No synchronous external network call during public rendering. Missing posters are scheduled in WP-Cron.
-Metadata is prepared in the editor/save flow and reused per hash. More than three uncached videos in one save are processed in the background.
-WP-Cron needs to run for background posters. WP Rocket post cache is invalidated when a background poster becomes available.
-Other page-cache/CDN products may need their page cache cleared after a background import.
-WordPress media attachment IDs are used for local responsive posters; duplicate hashes reuse the imported attachment.
-The player script is automatically excluded from WP Rocket and Perfmatters Delay JS.
-If unused-CSS removal changes appearance, safelist .dso-ap and its child classes.
-Frontend assets must exist on the original page for purely client-side later injections.
-The preview in Gutenberg does not play videos; test playback on the published page.
-Native mode applies startTime and muted; titleShow and recom are only meaningful in official Aparat mode (player="aparat" in shortcode or playerType => 'aparat' in PHP).
-The current official Aparat player may require a second internal Play click despite autoplay=true. Native mode avoids that overlay.
-If browser policy rejects playback with sound, native mode retries muted; sound can be enabled with the video controls.
-The default public media redirect uses wp-admin/admin-ajax.php?action=dadsoo_aparat_stream&hash=HASH, avoiding REST authentication filters. Exclude this action and /wp-json/dadsoo-aparat/v1/stream/* from independent CDN/REST caching. Responses send Cache-Control: no-store. Signed source URLs are cached server-side for only 60 seconds and never printed in article HTML.
-Initial loading times out after 15 seconds. A media error or timeout automatically retries the REST route with a different Aparat CDN when the API supplies one. A second failure restores the Play icon with a status message. Normal clicks retry in place; only explicit modified clicks follow the Aparat page link.
-Modified clicks open the Aparat page normally.
-Video schema is not generated. Preserve existing accurate VideoObject schema in your injector.
-Uninstalling/deactivating preserves imported posters and metadata; deactivation removes pending plugin cron events.
+This plugin requires Aparat for public video metadata, poster images, and playback.
+
+Service: Aparat, https://www.aparat.com/
+
+* During editor preview, saving, or background preparation, your server sends the video identifier to https://www.aparat.com/etc/api/video/videohash/{identifier} to retrieve its public title and poster URL. It downloads the poster from a validated Aparat CDN URL and stores it locally. Aparat receives the server's IP address and standard HTTP request information.
+* After Play in native mode, a public endpoint on your site sends the video identifier to Aparat's API to resolve a temporary MP4 URL. The visitor's browser requests the video from Aparat's CDN, exposing its IP address and normal browser request information to that service. Source URLs are briefly cached on your server, not embedded in cached article HTML.
+* In optional official-player mode, the browser loads https://www.aparat.com/video/video/embed/videohash/{identifier}/vt/frame after Play. Requests, cookies, and analytics within that iframe are controlled by Aparat.
+
+No Aparat account or API key is required. This plugin does not send WordPress passwords, credentials, or private article content to Aparat and does not add its own analytics or telemetry.
+
+Aparat's published rules: https://www.aparat.com/community-guideline
+Aparat support: https://support.aparat.com/
 
 == Changelog ==
+
+= 2.0.0 =
+* Rename the plugin to Lightweight Player for Aparat with the lightweight-player-for-aparat directory and text domain.
+* Set the author to Iman Shadmehri, contributor to imansh, and plugin/author websites to https://elinweb.ir.
+* Update code namespaces, block, widget, shortcode, asset, and API identifiers.
+* Preserve old saved embeds, PHP integrations, playback endpoints, and imported posters through compatibility aliases.
+* Rewrite installation, external-service disclosure, and migration documentation.
+
 = 1.2.4 =
-Repair poster URLs again at the end of WordPress content and Elementor widget filters, including older injected markup with missing src/srcset URLs. Keep a canonical poster source in new markup. Author is ishadmehri; plugin and author website https://elinweb.ir. No additional network request or frontend script.
+* Repair poster sources and malformed responsive candidates after WordPress and Elementor content filters.
+* Preserve a canonical poster source without additional frontend requests.
+
 = 1.2.3 =
-Set the plugin author to ishadmehri and the plugin/author website to https://elinweb.ir. Poster behavior remains as in 1.2.2.
+* Update author and website metadata.
+
 = 1.2.2 =
-Repair empty poster src and malformed srcset width descriptors. Fall back to the local media file from upload metadata when attachment image URLs are empty. Preserve responsive candidates, lazy-load placeholders and above-fold priority. Apply the URL fallback to editor previews without extra network requests.
+* Repair blank poster sources and malformed srcset descriptors using WordPress upload metadata.
+* Preserve responsive candidates and valid lazy-loading attributes.
+
 = 1.2.1 =
-Fix error fallback navigating to Aparat on the next click. Use public admin-ajax media redirect, automatically retry an alternative CDN through REST, bound initial loading wait, and show inline retry/error status. No additional request before click.
+* Improve native playback delivery, fallback, timeout handling, and in-page retry.
+
 = 1.2.0 =
-Circular icon-only Play control. Default click-to-play native MP4 player with immediate play() invocation, optional official Aparat iframe, on-demand no-store stream redirect and unavailable-source link fallback. No video or Aparat player request before click.
-= 1.1.0 =
-Playback settings in Gutenberg, Elementor, shortcode and PHP API. Preserve whitelisted options from official script/iframe input. No additional frontend dependency or request before click.
-= 1.0.0 =
-Initial version: Gutenberg block, optional Elementor widget, shortcode, injector API, cached local posters and click-to-load player.
+* Add native browser playback for click-to-play delivery.
+
+== Upgrade Notice ==
+
+= 2.0.0 =
+New identity and folder. Deactivate Dadsoo Aparat Performance before activating this version. Old saved embeds and imported posters remain supported. Clear page/CDN caches and update playback cache exclusions.
