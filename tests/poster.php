@@ -59,7 +59,25 @@ try {
     add_filter('wp_get_attachment_image', $empty_html);
     assert_poster(poster_attributes(Poster::render($id, false))->get_attribute('src') === $upload_url, 'Empty HTML fallback failed');
     remove_filter('wp_get_attachment_image', $empty_html);
+    // Recreate a later content filter deleting the URL after Renderer has returned.
+    add_filter('pre_option_dso_ap_video_stt8106', function () use ($id) { return array('poster_id' => $id); });
+    $late_damage = function ($html) use ($upload_url) { return str_replace($upload_url, '', $html); };
+    add_filter('the_content', $late_damage, 999999);
+    $fresh = '<div data-dso-aparat="stt8106">' . Poster::render($id, false) . '</div>';
+    $late_result = poster_attributes(apply_filters('the_content', $fresh));
+    assert_poster($late_result->get_attribute('src') === $upload_url, 'Late content filter damage not repaired');
+    assert_poster(strpos($late_result->get_attribute('srcset'), $upload_url . ' 900w') !== false, 'Late missing srcset URL not restored');
+    remove_filter('the_content', $late_damage, 999999);
+    $legacy = '<div data-dso-aparat="stt8106"><img class="dso-ap__poster" src="" srcset=" 900w, ' . str_replace('.webp', '-300x169.webp', $upload_url) . ' 300w"></div>';
+    $repaired_legacy = poster_attributes(apply_filters('the_content', $legacy));
+    assert_poster($repaired_legacy->get_attribute('src') === $upload_url, 'Legacy injected poster source not recovered');
+    assert_poster(strpos($repaired_legacy->get_attribute('srcset'), $upload_url . ' 900w') !== false, 'Legacy srcset not restored');
+    $unrelated = '<img src="" srcset="900w" class="theme-image">';
+    assert_poster(Poster::repair_content($unrelated) === $unrelated, 'Unrelated image modified');
+    $elementor = poster_attributes(apply_filters('elementor/widget/render_content', $legacy));
+    assert_poster($elementor->get_attribute('src') === $upload_url, 'Elementor final output not repaired');
     echo "PASS: normal responsive poster, exact blank-src/900w regression, metadata fallback, loading priorities, lazy-plugin compatibility, empty HTML, zero HTTP.\n";
+    echo "PASS: late content damage, legacy injected markup, Elementor output, unrelated images unchanged.\n";
 } finally {
     // Only remove the attachment record created by this test; no media files were created.
     wp_delete_post($id, true);

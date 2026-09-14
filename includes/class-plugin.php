@@ -4,6 +4,8 @@ defined('ABSPATH') || exit;
 
 final class Plugin {
     public static function boot() {
+        add_filter('the_content', array('Dadsoo\\Aparat\\Poster', 'repair_content'), PHP_INT_MAX);
+        add_filter('elementor/widget/render_content', array('Dadsoo\\Aparat\\Poster', 'repair_content'), PHP_INT_MAX);
         add_action('init', array(__CLASS__, 'register'));
         add_action('rest_api_init', array(__CLASS__, 'rest'));
         add_action('wp_ajax_dadsoo_aparat_stream', array('Dadsoo\\Aparat\\Stream', 'ajax'));

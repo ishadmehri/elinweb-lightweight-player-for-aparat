@@ -4,7 +4,7 @@ Tags: aparat, video, performance, elementor, block
 Requires at least: 6.3
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.2.3
+Stable tag: 1.2.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -74,6 +74,8 @@ Video schema is not generated. Preserve existing accurate VideoObject schema in 
 Uninstalling/deactivating preserves imported posters and metadata; deactivation removes pending plugin cron events.
 
 == Changelog ==
+= 1.2.4 =
+Repair poster URLs again at the end of WordPress content and Elementor widget filters, including older injected markup with missing src/srcset URLs. Keep a canonical poster source in new markup. Author is ishadmehri; plugin and author website https://elinweb.ir. No additional network request or frontend script.
 = 1.2.3 =
 Set the plugin author to ishadmehri and the plugin/author website to https://elinweb.ir. Poster behavior remains as in 1.2.2.
 = 1.2.2 =

@@ -35,6 +35,8 @@ final class Poster {
         $url = self::url($id);
         if ($url === '') return '';
         $attributes = array('class' => 'dso-ap__poster', 'alt' => '', 'decoding' => 'async',
+            'data-dso-poster-src' => $url,
+            'data-dso-poster-id' => $id,
             'loading' => $above_fold ? 'eager' : 'lazy', 'fetchpriority' => $above_fold ? 'high' : 'auto',
             'sizes' => '(max-width: 640px) 100vw, (max-width: 1024px) 90vw, 960px');
         $html = wp_get_attachment_image($id, 'large', false, $attributes);
@@ -64,6 +66,46 @@ final class Poster {
             }
             if ($candidates) $tags->set_attribute($attribute, implode(', ', $candidates));
             else $tags->remove_attribute($attribute);
+        }
+        return $tags->get_updated_html();
+    }
+
+    /** Content filters/injectors can change URLs after the player has rendered. */
+    public static function repair_content($html) {
+        if (!is_string($html) || strpos($html, 'dso-ap__poster') === false) return $html;
+        $tags = new \WP_HTML_Tag_Processor($html);
+        $id = 0;
+        while ($tags->next_tag()) {
+            if ($tags->get_tag() === 'DIV' && $tags->get_attribute('data-dso-aparat')) {
+                $hash = $tags->get_attribute('data-dso-aparat');
+                $id = 0;
+                if (preg_match('/^[a-zA-Z0-9]{1,40}$/D', $hash)) {
+                    $data = Metadata::cached($hash);
+                    $id = absint($data['poster_id'] ?? 0);
+                }
+            }
+            if ($tags->get_tag() !== 'IMG' || !$tags->has_class('dso-ap__poster')) continue;
+            $url = $tags->get_attribute('data-dso-poster-src');
+            $image_id = absint($tags->get_attribute('data-dso-poster-id')) ?: $id;
+            if (!self::valid_url($url)) $url = $image_id ? self::url($image_id) : '';
+            if (!self::valid_url($url)) continue;
+            if (!self::valid_url($tags->get_attribute('src'))
+                && !self::valid_url($tags->get_attribute('data-src'))
+                && !self::valid_url($tags->get_attribute('data-lazy-src'))) $tags->set_attribute('src', $url);
+            foreach (array('srcset', 'data-srcset', 'data-lazy-srcset') as $attribute) {
+                $value = $tags->get_attribute($attribute);
+                if (!is_string($value)) continue;
+                $candidates = array();
+                foreach (explode(',', $value) as $candidate) {
+                    $candidate = trim($candidate);
+                    // A URL removed from the first candidate leaves only its descriptor.
+                    if (preg_match('/^[1-9][0-9]*w$/D', $candidate)) $candidate = $url . ' ' . $candidate;
+                    if (preg_match('/^(\S+)\s+([1-9][0-9]*w|(?:[0-9]*\.)?[0-9]+x)$/', $candidate, $match)
+                        && self::valid_url($match[1])) $candidates[] = $candidate;
+                }
+                if ($candidates) $tags->set_attribute($attribute, implode(', ', $candidates));
+                else $tags->remove_attribute($attribute);
+            }
         }
         return $tags->get_updated_html();
     }
