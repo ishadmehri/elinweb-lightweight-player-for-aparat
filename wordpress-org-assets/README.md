@@ -2,7 +2,10 @@
 
 Upload these files to the top-level `assets` directory of the plugin's WordPress.org SVN repository. They are intentionally excluded from the installable plugin ZIP.
 
-- `icon-128x128.png`: standard plugin icon
-- `icon-256x256.png`: high-DPI plugin icon
+- `icon.svg`: scalable plugin icon with a square transparent canvas
+- `icon-128x128.png`: standard plugin icon fallback
+- `icon-256x256.png`: high-DPI plugin icon fallback
+- `banner-772x250.png`: standard plugin directory banner
+- `banner-1544x500.png`: high-DPI plugin directory banner
 
-Copyright 2026 Iman Shadmehri. Licensed under GPL-2.0-or-later with the plugin.
+Artwork supplied by the plugin author for WordPress.org distribution. Licensed under GPL-2.0-or-later with the plugin.
