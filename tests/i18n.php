@@ -12,7 +12,8 @@ $data = get_plugin_data(LWPA_FILE, false, true);
 assert_i18n($data['Name'] === $expected, 'Plugin metadata title not localized: ' . json_encode(array(
     'actual' => $data['Name'], 'expected' => $expected, 'locale' => get_locale(),
     'determined_locale' => determine_locale(), 'domain_loaded' => is_textdomain_loaded($domain))));
-assert_i18n($data['Author'] === 'Iman Shadmehri' && $data['PluginURI'] === 'https://elinweb.ir', 'Author or website changed');
+assert_i18n($data['Author'] === 'Iman Shadmehri' && $data['AuthorURI'] === 'https://elinweb.ir'
+    && $data['PluginURI'] === 'https://github.com/ishadmehri/lightweight-player-for-aparat', 'Author or plugin website changed');
 assert_i18n(get_plugin_data(LWPA_FILE, false, false)['Name'] === 'Lightweight Player for Aparat', 'Canonical plugin name changed');
 $block = WP_Block_Type_Registry::get_instance()->get_registered('lightweight-player/aparat');
 assert_i18n($block && $block->title === $expected, 'Block title not localized');

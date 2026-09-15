@@ -4,7 +4,7 @@ Tags: aparat, video, performance, elementor, block
 Requires at least: 6.3
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 2.0.3
+Stable tag: 2.0.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -65,6 +65,9 @@ Rules: https://www.aparat.com/community-guideline
 Support: https://support.aparat.com/
 
 == Changelog ==
+
+= 2.0.4 =
+* Give the plugin and author headers distinct, relevant URLs for WordPress.org submission.
 
 = 2.0.3 =
 * Restore WordPress 6.3 compatibility in poster repair.
