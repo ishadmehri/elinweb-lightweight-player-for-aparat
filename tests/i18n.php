@@ -9,7 +9,9 @@ function assert_i18n($condition, $message) { if (!$condition) throw new RuntimeE
 $domain = 'lightweight-player-for-aparat';
 $expected = $locale === 'fa_IR' ? 'آپارات بهینه شده' : 'Lightweight Player for Aparat';
 $data = get_plugin_data(LWPA_FILE, false, true);
-assert_i18n($data['Name'] === $expected, 'Plugin metadata title not localized');
+assert_i18n($data['Name'] === $expected, 'Plugin metadata title not localized: ' . json_encode(array(
+    'actual' => $data['Name'], 'expected' => $expected, 'locale' => get_locale(),
+    'determined_locale' => determine_locale(), 'domain_loaded' => is_textdomain_loaded($domain))));
 assert_i18n($data['Author'] === 'Iman Shadmehri' && $data['PluginURI'] === 'https://elinweb.ir', 'Author or website changed');
 assert_i18n(get_plugin_data(LWPA_FILE, false, false)['Name'] === 'Lightweight Player for Aparat', 'Canonical plugin name changed');
 $block = WP_Block_Type_Registry::get_instance()->get_registered('lightweight-player/aparat');

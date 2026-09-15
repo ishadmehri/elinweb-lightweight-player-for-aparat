@@ -3,7 +3,7 @@
  * Plugin Name: Lightweight Player for Aparat
  * Plugin URI: https://elinweb.ir
  * Description: Play Aparat videos after a click, with local posters, a Gutenberg block and an Elementor widget. Supports /embed/ and /v/ links.
- * Version: 2.0.2
+ * Version: 2.0.3
  * Requires at least: 6.3
  * Requires PHP: 7.4
  * Author: Iman Shadmehri
@@ -13,7 +13,7 @@
  * Domain Path: /languages
  */
 defined('ABSPATH') || exit;
-define('LWPA_VERSION', '2.0.2');
+define('LWPA_VERSION', '2.0.3');
 define('LWPA_FILE', __FILE__);
 define('LWPA_DIR', plugin_dir_path(__FILE__));
 require_once LWPA_DIR . 'includes/class-parser.php';

@@ -4,6 +4,12 @@ defined('ABSPATH') || exit;
 
 /** Repair attachment markup without network requests or changing media records. */
 final class Poster {
+    /** Exact class-token matching also works on WordPress 6.3. */
+    private static function has_class($tags, $class) {
+        $classes = $tags->get_attribute('class');
+        return is_string($classes) && in_array($class, preg_split('/[\t\n\f\r ]+/', $classes), true);
+    }
+
     private static function valid_url($url) {
         if (!is_string($url) || preg_match('/\s/', $url)) return false;
         $parts = wp_parse_url($url);
@@ -84,7 +90,7 @@ final class Poster {
                     $id = absint($data['poster_id'] ?? 0);
                 }
             }
-            if ($tags->get_tag() !== 'IMG' || (!$tags->has_class('lwpa__poster') && !$tags->has_class('dso-ap__poster'))) continue;
+            if ($tags->get_tag() !== 'IMG' || (!self::has_class($tags, 'lwpa__poster') && !self::has_class($tags, 'dso-ap__poster'))) continue;
             $url = $tags->get_attribute('data-lwpa-poster-src') ?: $tags->get_attribute('data-dso-poster-src');
             $image_id = absint($tags->get_attribute('data-lwpa-poster-id')) ?: (absint($tags->get_attribute('data-dso-poster-id')) ?: $id);
             if (!self::valid_url($url)) $url = $image_id ? self::url($image_id) : '';

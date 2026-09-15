@@ -4,7 +4,7 @@ Tags: aparat, video, performance, elementor, block
 Requires at least: 6.3
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 2.0.2
+Stable tag: 2.0.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -65,6 +65,11 @@ Rules: https://www.aparat.com/community-guideline
 Support: https://support.aparat.com/
 
 == Changelog ==
+
+= 2.0.3 =
+* Restore WordPress 6.3 compatibility in poster repair.
+* Make the bundled Persian translation catalog readable by the WordPress 6.3 POMO parser.
+* Verify WordPress 6.3, 6.6 and 6.8 across PHP 7.4 through 8.3, with and without Elementor.
 
 = 2.0.2 =
 * Shorten the guide and clarify /embed/ and /v/ input links, Gutenberg, and Elementor support.
