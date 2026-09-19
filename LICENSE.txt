@@ -1,4 +1,4 @@
-Lightweight Player for Aparat
+Elinweb Lightweight Player for Aparat
 
 Copyright 2026 Iman Shadmehri and contributors
 

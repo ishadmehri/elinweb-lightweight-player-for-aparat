@@ -3,8 +3,8 @@ namespace LightweightPlayer\Aparat;
 defined('ABSPATH') || exit;
 
 class Elementor_Widget extends \Elementor\Widget_Base {
-    public function get_name() { return 'lightweight-player-for-aparat'; }
-    public function get_title() { return __('Lightweight Player for Aparat', 'lightweight-player-for-aparat'); }
+    public function get_name() { return 'elinweb-lightweight-player-for-aparat'; }
+    public function get_title() { return __('Elinweb Lightweight Player for Aparat', 'elinweb-lightweight-player-for-aparat'); }
     public function get_icon() { return 'eicon-play'; }
     public function get_categories() { return array('general'); }
     public function get_keywords() { return array('aparat', 'video', 'lightweight-player', 'آپارات', 'ویدئو'); }
@@ -62,13 +62,19 @@ class Elementor_Widget extends \Elementor\Widget_Base {
                 $args[$key] = $settings[$control];
             }
         }
-        // Renderer escapes URLs, attributes and titles individually; its trusted HTML includes the Play SVG and local CSS.
+        // Renderer escapes URLs, attributes and titles individually; its trusted HTML includes the Play SVG.
         // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaping the complete HTML would break the player markup.
         echo Renderer::render($args);
     }
 }
 
 /** Hidden compatibility widget for existing Elementor documents. */
+final class Previous_Elementor_Widget extends Elementor_Widget {
+    public function get_name() { return 'lightweight-player-for-aparat'; }
+    public function show_in_panel() { return false; }
+}
+
+/** Hidden compatibility widget for older Dadsoo Elementor documents. */
 final class Legacy_Elementor_Widget extends Elementor_Widget {
     public function get_name() { return 'dadsoo-aparat-performance'; }
     public function show_in_panel() { return false; }

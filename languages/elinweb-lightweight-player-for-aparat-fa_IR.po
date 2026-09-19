@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Lightweight Player for Aparat 2.0.4\n"
+"Project-Id-Version: Elinweb Lightweight Player for Aparat 2.0.5\n"
 "Report-Msgid-Bugs-To: https://elinweb.ir\n"
 "POT-Creation-Date: 2026-09-14 19:00+0330\n"
 "PO-Revision-Date: 2026-09-14 19:00+0330\n"
@@ -11,20 +11,20 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Domain: lightweight-player-for-aparat\n"
+"X-Domain: elinweb-lightweight-player-for-aparat\n"
 
-#: lightweight-player-for-aparat.php includes/class-elementor-widget.php
-msgid "Lightweight Player for Aparat"
-msgstr "آپارات بهینه شده"
+#: elinweb-lightweight-player-for-aparat.php includes/class-elementor-widget.php
+msgid "Elinweb Lightweight Player for Aparat"
+msgstr "الین‌وب: آپارات بهینه شده"
 
-#: lightweight-player-for-aparat.php
+#: elinweb-lightweight-player-for-aparat.php
 msgid "Play Aparat videos after a click, with local posters, a Gutenberg block and an Elementor widget. Supports /embed/ and /v/ links."
 msgstr "ویدئوی آپارات با پوستر محلی و پخش پس از کلیک؛ با بلوک گوتنبرگ و ویجت المنتور. لینک‌های /embed/ و /v/ را وارد کن."
 
 #: block/block.json
 msgctxt "block title"
-msgid "Lightweight Player for Aparat"
-msgstr "آپارات بهینه شده"
+msgid "Elinweb Lightweight Player for Aparat"
+msgstr "الین‌وب: آپارات بهینه شده"
 
 #: block/block.json
 msgctxt "block description"

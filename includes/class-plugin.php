@@ -11,6 +11,7 @@ final class Plugin {
         add_action('wp_ajax_dadsoo_aparat_stream', array('LightweightPlayer\\Aparat\\Stream', 'ajax'));
         add_action('wp_ajax_nopriv_dadsoo_aparat_stream', array('LightweightPlayer\\Aparat\\Stream', 'ajax'));
         add_action('init', array(__CLASS__, 'register'));
+        add_action('wp_enqueue_scripts', array(__CLASS__, 'player_style'));
         add_action('rest_api_init', array(__CLASS__, 'rest'));
         add_action('wp_ajax_lwpa_aparat_stream', array('LightweightPlayer\\Aparat\\Stream', 'ajax'));
         add_action('wp_ajax_nopriv_lwpa_aparat_stream', array('LightweightPlayer\\Aparat\\Stream', 'ajax'));
@@ -26,26 +27,36 @@ final class Plugin {
 
     public static function translations() {
         // phpcs:ignore PluginCheck.CodeAnalysis.DiscouragedFunctions.load_plugin_textdomainFound -- ZIP installs need the bundled Persian catalog before WordPress.org language packs exist.
-        load_plugin_textdomain('lightweight-player-for-aparat', false, dirname(plugin_basename(LWPA_FILE)) . '/languages');
+        load_plugin_textdomain('elinweb-lightweight-player-for-aparat', false, dirname(plugin_basename(LWPA_FILE)) . '/languages');
     }
 
     public static function register() {
         wp_register_script('lwpa-player', plugins_url('assets/player.js', LWPA_FILE), array(), LWPA_VERSION,
             array('strategy' => 'defer', 'in_footer' => true));
+        wp_register_style('lwpa-player', false, array(), LWPA_VERSION);
         wp_register_script('lwpa-editor', plugins_url('block/editor.js', LWPA_FILE),
             array('wp-blocks', 'wp-element', 'wp-components', 'wp-block-editor', 'wp-api-fetch'), LWPA_VERSION, true);
         register_block_type(LWPA_DIR . 'block', array('render_callback' => array('LightweightPlayer\\Aparat\\Renderer', 'render')));
         // Saved blocks retain their original attributes and shared rendering.
-        $current = \WP_Block_Type_Registry::get_instance()->get_registered('lightweight-player/aparat');
-        register_block_type('dadsoo/aparat-performance', array(
-            'api_version' => 3, 'title' => $current->title, 'category' => 'embed',
-            'attributes' => $current->attributes, 'supports' => array('inserter' => false, 'html' => false),
-            'editor_script_handles' => $current->editor_script_handles,
-            'editor_style_handles' => $current->editor_style_handles,
-            'view_script_handles' => $current->view_script_handles,
-            'render_callback' => array('LightweightPlayer\\Aparat\\Renderer', 'render')));
+        $current = \WP_Block_Type_Registry::get_instance()->get_registered('elinweb/aparat-player');
+        foreach (array('lightweight-player/aparat', 'dadsoo/aparat-performance') as $legacy_block) {
+            register_block_type($legacy_block, array(
+                'api_version' => 3, 'title' => $current->title, 'category' => 'embed',
+                'attributes' => $current->attributes, 'supports' => array('inserter' => false, 'html' => false),
+                'editor_script_handles' => $current->editor_script_handles,
+                'editor_style_handles' => $current->editor_style_handles,
+                'view_script_handles' => $current->view_script_handles,
+                'render_callback' => array('LightweightPlayer\\Aparat\\Renderer', 'render')));
+        }
         add_shortcode('dadsoo_aparat', array(__CLASS__, 'shortcode'));
         add_shortcode('lwpa_aparat', array(__CLASS__, 'shortcode'));
+    }
+
+    public static function player_style() {
+        // The small stylesheet is needed even when an injector renders the player after wp_head.
+        // WordPress prints it in the head without a separate network request.
+        wp_enqueue_style('lwpa-player');
+        wp_add_inline_style('lwpa-player', file_get_contents(LWPA_DIR . 'assets/player.css'));
     }
 
     public static function shortcode($atts) {
@@ -62,6 +73,7 @@ final class Plugin {
     public static function widget($manager) {
         require_once LWPA_DIR . 'includes/class-elementor-widget.php';
         $manager->register(new Elementor_Widget());
+        $manager->register(new Previous_Elementor_Widget());
         $manager->register(new Legacy_Elementor_Widget());
     }
 
@@ -101,7 +113,7 @@ final class Plugin {
     }
 
     public static function delay_exclusions($exclusions) {
-        $exclusions[] = '/lightweight-player-for-aparat/assets/player.js';
+        $exclusions[] = '/elinweb-lightweight-player-for-aparat/assets/player.js';
         return $exclusions;
     }
 
@@ -125,7 +137,7 @@ final class Plugin {
 
     private static function block_hashes($blocks, &$hashes) {
         foreach ($blocks as $block) {
-            if (in_array($block['blockName'] ?? '', array('lightweight-player/aparat', 'dadsoo/aparat-performance'), true)) {
+            if (in_array($block['blockName'] ?? '', array('elinweb/aparat-player', 'lightweight-player/aparat', 'dadsoo/aparat-performance'), true)) {
                 $hashes[] = Parser::hash($block['attrs']['url'] ?? '');
             }
             self::block_hashes($block['innerBlocks'] ?? array(), $hashes);
@@ -144,7 +156,7 @@ final class Plugin {
     private static function elementor_hashes($elements, &$hashes) {
         foreach ($elements as $element) {
             if (!is_array($element)) continue;
-            if (in_array($element['widgetType'] ?? '', array('lightweight-player-for-aparat', 'dadsoo-aparat-performance'), true)) {
+            if (in_array($element['widgetType'] ?? '', array('elinweb-lightweight-player-for-aparat', 'lightweight-player-for-aparat', 'dadsoo-aparat-performance'), true)) {
                 $hashes[] = Parser::hash($element['settings']['aparat_url'] ?? '');
             }
             self::elementor_hashes($element['elements'] ?? array(), $hashes);

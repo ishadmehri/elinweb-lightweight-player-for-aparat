@@ -1,14 +1,14 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
-  "name": "lightweight-player/aparat",
-  "version": "2.0.4",
-  "title": "Lightweight Player for Aparat",
+  "name": "elinweb/aparat-player",
+  "version": "2.0.5",
+  "title": "Elinweb Lightweight Player for Aparat",
   "category": "embed",
   "icon": "video-alt3",
   "description": "Local poster; the Aparat video player loads only after a click.",
   "keywords": ["aparat", "video", "ویدئو"],
-  "textdomain": "lightweight-player-for-aparat",
+  "textdomain": "elinweb-lightweight-player-for-aparat",
   "attributes": {
     "url": {"type": "string", "default": ""},
     "title": {"type": "string", "default": ""},

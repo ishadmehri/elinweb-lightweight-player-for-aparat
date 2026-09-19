@@ -105,6 +105,7 @@
     },
     save: function () { return null; }
   };
-  wp.blocks.registerBlockType('lightweight-player/aparat', definition);
+  wp.blocks.registerBlockType('elinweb/aparat-player', definition);
+  wp.blocks.registerBlockType('lightweight-player/aparat', Object.assign({}, definition, { supports: { inserter: false, html: false, customClassName: false } }));
   wp.blocks.registerBlockType('dadsoo/aparat-performance', Object.assign({}, definition, { supports: { inserter: false, html: false, customClassName: false } }));
 })(window.wp);

@@ -6,7 +6,7 @@ from babel.messages.mofile import write_mo
 from babel.messages.catalog import Catalog
 
 directory = Path(__file__).resolve().parents[1] / 'languages'
-domain = 'lightweight-player-for-aparat'
+domain = 'elinweb-lightweight-player-for-aparat'
 with (directory / f'{domain}-fa_IR.po').open('rb') as source:
     catalog = read_po(source, locale='fa_IR', domain=domain)
 errors = list(catalog.check())

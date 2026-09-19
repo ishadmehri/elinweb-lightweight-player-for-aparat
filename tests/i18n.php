@@ -6,16 +6,16 @@ $GLOBALS['wp_filter']['locale'][0][] = array('function' => function () use ($loc
 require $argv[1];
 require_once ABSPATH . 'wp-admin/includes/plugin.php';
 function assert_i18n($condition, $message) { if (!$condition) throw new RuntimeException($message); }
-$domain = 'lightweight-player-for-aparat';
-$expected = $locale === 'fa_IR' ? 'آپارات بهینه شده' : 'Lightweight Player for Aparat';
+$domain = 'elinweb-lightweight-player-for-aparat';
+$expected = $locale === 'fa_IR' ? 'الین‌وب: آپارات بهینه شده' : 'Elinweb Lightweight Player for Aparat';
 $data = get_plugin_data(LWPA_FILE, false, true);
 assert_i18n($data['Name'] === $expected, 'Plugin metadata title not localized: ' . json_encode(array(
     'actual' => $data['Name'], 'expected' => $expected, 'locale' => get_locale(),
     'determined_locale' => determine_locale(), 'domain_loaded' => is_textdomain_loaded($domain))));
 assert_i18n($data['Author'] === 'Iman Shadmehri' && $data['AuthorURI'] === 'https://elinweb.ir'
-    && $data['PluginURI'] === 'https://github.com/ishadmehri/lightweight-player-for-aparat', 'Author or plugin website changed');
-assert_i18n(get_plugin_data(LWPA_FILE, false, false)['Name'] === 'Lightweight Player for Aparat', 'Canonical plugin name changed');
-$block = WP_Block_Type_Registry::get_instance()->get_registered('lightweight-player/aparat');
+    && $data['PluginURI'] === 'https://github.com/ishadmehri/elinweb-lightweight-player-for-aparat', 'Author or plugin website changed');
+assert_i18n(get_plugin_data(LWPA_FILE, false, false)['Name'] === 'Elinweb Lightweight Player for Aparat', 'Canonical plugin name changed');
+$block = WP_Block_Type_Registry::get_instance()->get_registered('elinweb/aparat-player');
 assert_i18n($block && $block->title === $expected, 'Block title not localized');
 assert_i18n(WP_Block_Type_Registry::get_instance()->get_registered('dadsoo/aparat-performance')->title === $expected,
     'Compatibility block title not localized');
@@ -25,7 +25,7 @@ if ($locale === 'fa_IR') {
 }
 if (did_action('elementor/loaded')) {
     $manager = \Elementor\Plugin::$instance->widgets_manager;
-    $widget = $manager->get_widget_types('lightweight-player-for-aparat');
+    $widget = $manager->get_widget_types('elinweb-lightweight-player-for-aparat');
     assert_i18n($widget && $widget->get_title() === $expected, 'Elementor title not localized');
     assert_i18n($manager->get_widget_types('dadsoo-aparat-performance')->get_title() === $expected,
         'Compatibility widget title not localized');

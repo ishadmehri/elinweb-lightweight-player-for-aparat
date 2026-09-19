@@ -1,7 +1,7 @@
 <?php
 // Integration regression against the disposable WordPress installation.
 require $argv[1];
-if (!defined('LWPA_VERSION')) require dirname(__DIR__) . '/lightweight-player-for-aparat.php';
+if (!defined('LWPA_VERSION')) require dirname(__DIR__) . '/elinweb-lightweight-player-for-aparat.php';
 use LightweightPlayer\Aparat\Poster;
 function assert_poster($condition, $message) { if (!$condition) throw new RuntimeException($message); }
 $id = wp_insert_attachment(array('post_title' => 'Poster regression', 'post_mime_type' => 'image/webp', 'post_status' => 'inherit'));

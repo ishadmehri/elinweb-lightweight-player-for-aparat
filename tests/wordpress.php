@@ -5,14 +5,14 @@ if (!$root) throw new RuntimeException('Pass the WordPress root directory.');
 $_SERVER['HTTP_HOST'] = 'chatgpt.test';
 $_SERVER['REQUEST_URI'] = '/';
 require is_file($root) ? $root : rtrim($root, '/\\') . '/wp-load.php';
-if (!defined('LWPA_VERSION')) require dirname(__DIR__) . '/lightweight-player-for-aparat.php';
+if (!defined('LWPA_VERSION')) require dirname(__DIR__) . '/elinweb-lightweight-player-for-aparat.php';
 use LightweightPlayer\Aparat\Parser;
 use LightweightPlayer\Aparat\Plugin;
 use LightweightPlayer\Aparat\Renderer;
 function check($condition, $message) { if (!$condition) throw new RuntimeException($message); }
-if (!WP_Block_Type_Registry::get_instance()->is_registered('lightweight-player/aparat')) Plugin::register();
+if (!WP_Block_Type_Registry::get_instance()->is_registered('elinweb/aparat-player')) Plugin::register();
 rest_get_server();
-$block = WP_Block_Type_Registry::get_instance()->get_registered('lightweight-player/aparat');
+$block = WP_Block_Type_Registry::get_instance()->get_registered('elinweb/aparat-player');
 check($block && is_callable($block->render_callback), 'Dynamic block not registered');
 check($block->view_script_handles === array('lwpa-player'), 'Block view script is not conditional');
 check(!wp_script_is('lwpa-player', 'enqueued'), 'Player is enqueued on pages without video');
@@ -49,7 +49,11 @@ check(strpos($first . $second, '<iframe') === false && strpos($first . $second, 
 check(strpos($first . $second, '<video') === false, 'Initial native video exists');
 check(strpos($first, 'data-player-type="native"') !== false, 'Default player is not native');
 check(strpos($first, '<span>پخش ویدئو</span>') === false && strpos($first, 'aria-label="پخش ') !== false, 'Icon button/accessibility incorrect');
-check(substr_count($first . $second, 'id="lightweight-player-for-aparat-css"') === 1, 'CSS duplicated');
+check(strpos($first . $second, '<style') === false, 'Player render printed CSS directly');
+check(wp_style_is('lwpa-player', 'registered'), 'Player style not registered');
+Plugin::player_style();
+check(wp_style_is('lwpa-player', 'enqueued') && count(wp_styles()->registered['lwpa-player']->extra['after']) === 1,
+    'Player CSS not enqueued once through WordPress styles API');
 check(strpos($first, '&quot;') !== false && strpos($first, '<آزمایش>') === false, 'Title was not sanitized/escaped');
 check(strpos($second, 'aspect-ratio:9/16') !== false, 'Ratio ignored');
 function player_options($html) {
@@ -84,15 +88,15 @@ $invalid_options = Parser::video('https://www.aparat.com/v/ytf50k5?muted[]=true&
 check($invalid_options['options'] === array(), 'Unapproved/malformed player parameter forwarded');
 check($requests === 0, 'Player settings triggered a public HTTP request');
 check(wp_script_is('lwpa-player', 'enqueued'), 'Renderer failed to enqueue runtime');
-check(in_array('/lightweight-player-for-aparat/assets/player.js', Plugin::delay_exclusions(array()), true), 'Perfmatters exclusion missing');
+check(in_array('/elinweb-lightweight-player-for-aparat/assets/player.js', Plugin::delay_exclusions(array()), true), 'Perfmatters exclusion missing');
 check(strpos(Plugin::script_tag('<script src="test"></script>', 'lwpa-player'), 'nowprocket') !== false, 'Rocket exclusion missing');
 $routes = rest_get_server()->get_routes();
 check(isset($routes['/lightweight-player/v1/resolve']), 'REST route missing');
 check(call_user_func($routes['/lightweight-player/v1/resolve'][0]['permission_callback']) === false, 'Anonymous metadata access allowed');
 $elementor = 'not installed';
 if (did_action('elementor/loaded')) {
-    if (!\Elementor\Plugin::$instance->widgets_manager->get_widget_types('lightweight-player-for-aparat')) Plugin::widget(\Elementor\Plugin::$instance->widgets_manager);
-    $widget = \Elementor\Plugin::$instance->widgets_manager->get_widget_types('lightweight-player-for-aparat');
+    if (!\Elementor\Plugin::$instance->widgets_manager->get_widget_types('elinweb-lightweight-player-for-aparat')) Plugin::widget(\Elementor\Plugin::$instance->widgets_manager);
+    $widget = \Elementor\Plugin::$instance->widgets_manager->get_widget_types('elinweb-lightweight-player-for-aparat');
     check($widget !== null, 'Elementor widget missing');
     $controls = $widget->get_controls();
     check(isset($controls['aparat_url'], $controls['poster'], $controls['above_fold'], $controls['ratio'], $controls['start_time'], $controls['muted'], $controls['title_show'], $controls['recommendations']), 'Elementor controls missing');

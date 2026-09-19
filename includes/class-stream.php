@@ -99,7 +99,7 @@ final class Stream {
         $host = wp_parse_url($url, PHP_URL_HOST);
         $allow_host = static function ($hosts) use ($host) { $hosts[] = $host; return $hosts; };
         add_filter('allowed_redirect_hosts', $allow_host);
-        wp_safe_redirect($url, 302, 'Lightweight Player for Aparat');
+        wp_safe_redirect($url, 302, 'Elinweb Lightweight Player for Aparat');
         remove_filter('allowed_redirect_hosts', $allow_host);
         exit;
     }

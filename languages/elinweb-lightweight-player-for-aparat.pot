@@ -1,14 +1,15 @@
-# Translations template for Lightweight Player for Aparat.
+# Translations template for Elinweb Lightweight Player for Aparat.
 # Copyright (C) 2026 Iman Shadmehri and contributors
-# This file is distributed under the same license as the Lightweight Player for Aparat project.
+# This file is distributed under the same license as the Elinweb Lightweight Player for Aparat
+# project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
 #
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Lightweight Player for Aparat 2.0.4\n"
+"Project-Id-Version: Elinweb Lightweight Player for Aparat 2.0.5\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-09-15 10:39+0330\n"
+"POT-Creation-Date: 2026-09-19 10:02+0330\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,11 +18,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.18.0\n"
 
-#: includes/class-elementor-widget.php lightweight-player-for-aparat.php
-msgid "Lightweight Player for Aparat"
+#: elinweb-lightweight-player-for-aparat.php includes/class-elementor-widget.php
+msgid "Elinweb Lightweight Player for Aparat"
 msgstr ""
 
-#: lightweight-player-for-aparat.php
+#: elinweb-lightweight-player-for-aparat.php
 msgid ""
 "Play Aparat videos after a click, with local posters, a Gutenberg block and an Elementor widget. "
 "Supports /embed/ and /v/ links."
@@ -29,7 +30,7 @@ msgstr ""
 
 #: block/block.json
 msgctxt "block title"
-msgid "Lightweight Player for Aparat"
+msgid "Elinweb Lightweight Player for Aparat"
 msgstr ""
 
 #: block/block.json

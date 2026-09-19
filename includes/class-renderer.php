@@ -3,8 +3,6 @@ namespace LightweightPlayer\Aparat;
 defined('ABSPATH') || exit;
 
 final class Renderer {
-    private static $css_printed = false;
-
     public static function render($args = array()) {
         $args = wp_parse_args($args, array('url' => '', 'title' => '', 'posterId' => 0,
             'aboveFold' => false, 'ratio' => '16/9', 'playerType' => 'native'));
@@ -39,13 +37,7 @@ final class Renderer {
             $poster = Poster::render($poster_id, $above_fold);
         }
         wp_enqueue_script('lwpa-player');
-        $css = '';
-        // Tiny inline CSS appears once, including shortcodes rendered after wp_head.
-        if (!self::$css_printed) {
-            self::$css_printed = true;
-            $css = '<style id="lightweight-player-for-aparat-css">' . file_get_contents(LWPA_DIR . 'assets/player.css') . '</style>';
-        }
-        return $css . '<div class="lwpa" data-lwpa-aparat="' . esc_attr($hash) . '" data-video-title="' . esc_attr($title) .
+        return '<div class="lwpa" data-lwpa-aparat="' . esc_attr($hash) . '" data-video-title="' . esc_attr($title) .
             '" data-player-options="' . esc_attr(wp_json_encode((object) $options)) . '" data-player-type="' . esc_attr($player_type) . '"' . $stream_attribute . ' style="aspect-ratio:' . esc_attr($ratio) . '">' .
             '<a class="lwpa__trigger" href="' . esc_url('https://www.aparat.com/v/' . $hash) .
             '" aria-label="' . esc_attr('پخش ' . $title) . '">' . $poster .

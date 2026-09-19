@@ -1,10 +1,10 @@
-=== Lightweight Player for Aparat ===
+=== Elinweb Lightweight Player for Aparat ===
 Contributors: imansh
 Tags: aparat, video, performance, elementor, block
 Requires at least: 6.3
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 2.0.4
+Stable tag: 2.0.5
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -27,7 +27,7 @@ The default browser player avoids Aparat's iframe and player JavaScript. An opti
 
 Posters are stored in your media library and converted to WebP when supported. Preparation runs while editing, saving, or through WP-Cron, without synchronous Aparat requests during public page rendering. Playback depends on API/CDN availability and browser policies.
 
-The plugin includes Persian interface translations. Find the short Persian guide in README.md or on GitHub: https://github.com/ishadmehri/lightweight-player-for-aparat
+The plugin includes Persian interface translations. Find the short Persian guide in README.md or on GitHub: https://github.com/ishadmehri/elinweb-lightweight-player-for-aparat
 
 Independently developed; not affiliated with or endorsed by Aparat or Elementor.
 Author: Iman Shadmehri. Website: https://elinweb.ir
@@ -65,6 +65,10 @@ Rules: https://www.aparat.com/community-guideline
 Support: https://support.aparat.com/
 
 == Changelog ==
+
+= 2.0.5 =
+* Adopt a distinctive name and directory slug, retaining saved blocks, Elementor widgets, and shortcodes.
+* Load the tiny player CSS through the WordPress styles API without an extra stylesheet request.
 
 = 2.0.4 =
 * Give the plugin and author headers distinct, relevant URLs for WordPress.org submission.

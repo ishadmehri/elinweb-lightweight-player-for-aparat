@@ -1,12 +1,12 @@
 <?php
 // Compatibility checks against a disposable WordPress + optional Elementor site.
 require $argv[1];
-if (!defined('LWPA_VERSION')) require dirname(__DIR__) . '/lightweight-player-for-aparat.php';
+if (!defined('LWPA_VERSION')) require dirname(__DIR__) . '/elinweb-lightweight-player-for-aparat.php';
 use LightweightPlayer\Aparat\Metadata;
 use LightweightPlayer\Aparat\Plugin;
 use LightweightPlayer\Aparat\Poster;
 function assert_migration($condition, $message) { if (!$condition) throw new RuntimeException($message); }
-if (!WP_Block_Type_Registry::get_instance()->is_registered('lightweight-player/aparat')) Plugin::register();
+if (!WP_Block_Type_Registry::get_instance()->is_registered('elinweb/aparat-player')) Plugin::register();
 rest_get_server();
 add_filter('pre_schedule_event', '__return_false');
 add_filter('pre_http_request', function () { throw new RuntimeException('Migration triggered HTTP'); });
@@ -21,6 +21,9 @@ assert_migration(strpos($new, 'data-lwpa-aparat="legacy123"') !== false, 'New sh
 $block = array('blockName' => 'dadsoo/aparat-performance', 'attrs' => array('url' => 'legacy123', 'startTime' => 65),
     'innerBlocks' => array(), 'innerHTML' => '', 'innerContent' => array());
 assert_migration(strpos(render_block($block), '&quot;startTime&quot;:65') !== false, 'Legacy block settings lost');
+$previous_block = $block;
+$previous_block['blockName'] = 'lightweight-player/aparat';
+assert_migration(strpos(render_block($previous_block), '&quot;startTime&quot;:65') !== false, 'Previous block settings lost');
 assert_migration(strpos(dadsoo_aparat_performance_render('legacy123'), 'data-lwpa-aparat="legacy123"') !== false, 'Legacy PHP function broken');
 assert_migration(has_action('wp_ajax_nopriv_dadsoo_aparat_stream') !== false, 'Legacy AJAX route missing');
 assert_migration(has_action('dso_ap_warm_video') !== false, 'Legacy cron callback missing');
@@ -30,6 +33,8 @@ if (did_action('elementor/loaded')) {
     Plugin::widget(\Elementor\Plugin::$instance->widgets_manager);
     $widget = \Elementor\Plugin::$instance->widgets_manager->get_widget_types('dadsoo-aparat-performance');
     assert_migration($widget && !$widget->show_in_panel(), 'Legacy widget must remain available but hidden');
+    $previous_widget = \Elementor\Plugin::$instance->widgets_manager->get_widget_types('lightweight-player-for-aparat');
+    assert_migration($previous_widget && !$previous_widget->show_in_panel(), 'Previous widget must remain available but hidden');
     assert_migration(isset($widget->get_controls()['aparat_url']), 'Legacy widget controls missing');
 }
 $id = wp_insert_attachment(array('post_title' => 'Migration fixture', 'post_mime_type' => 'image/webp', 'post_status' => 'inherit'));
