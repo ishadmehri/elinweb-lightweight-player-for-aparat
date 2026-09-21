@@ -52,6 +52,12 @@ The browser player requests playback during the first click. It can retry muted 
 
 For independent CDN/REST caching, exclude the lwpa_aparat_stream action on /wp-admin/admin-ajax.php and /wp-json/lightweight-player/v1/stream/* from caching. Playback responses send Cache-Control: no-store. Video bytes come directly from Aparat's CDN.
 
+== Screenshots ==
+
+1. Gutenberg block preview with an Aparat URL, automatically prepared poster, and circular Play button.
+2. Elementor widget preview with controls for the Aparat URL, optional title and poster, aspect ratio, and above-the-fold priority.
+3. Elementor playback settings for the native one-click player or official Aparat player, start time, muted playback, and recommendations.
+
 == External services ==
 
 Aparat (https://www.aparat.com/) supplies public video metadata, poster images, and video files.
